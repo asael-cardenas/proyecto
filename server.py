@@ -25,12 +25,12 @@ app.add_middleware(
 )
 
 BASE_DIR     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_PATH    = os.path.join(BASE_DIR, "algoritmos",     "zonas_zmg.json")
+DATA_PATH    = os.path.join("zonas_zmg.json")
 FRONTEND_DIR = os.path.join(BASE_DIR, "algoritmos")
 
 @app.get("/", include_in_schema=False)
 def serve_ui():
-    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return FileResponse(os.path.join("index.html"))
 
 
 class AnalisisRequest(BaseModel):
