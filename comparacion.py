@@ -1,19 +1,3 @@
-"""
-GDL Nexus — Módulo de Filtro y Comparación de Zonas
-Sprint 3 - HU03: Filtro por tipo de negocio
-Sprint 3 - HU04: Comparación lado a lado de zonas
-
-HU03 — FiltroGiro:
-  Filtra zonas según si son buenas para un giro concreto, evaluando:
-  - Baja saturación del giro propio (menos competencia directa)
-  - Alta presencia de giros complementarios (más flujo general)
-  - NSE compatible con el ticket promedio del giro
-
-HU04 — ComparacionZonas:
-  Dado un conjunto de zona_ids, genera una ficha comparativa completa
-  con todos los indicadores normalizados para decisión lado a lado.
-"""
-
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -32,7 +16,7 @@ from visibilidad import calcular_visibilidad_zona
 
 # ── HU03: FILTRO POR GIRO ─────────────────────────────────────────────────────
 
-# NSE mínimo recomendado por giro (según ticket promedio)
+# NSE mínimo recomendado por giro
 _NSE_MINIMO_GIRO: dict[str, list[str]] = {
     "cafeteria":           ["B", "A/B", "A+"],
     "restaurante":         ["B/C", "B", "A/B", "A+"],

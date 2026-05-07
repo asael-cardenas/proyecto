@@ -1,13 +1,3 @@
-"""
-GDL Nexus - Backend API
-Sprint 1 → HU01  · Sprint 2 → HU02  · Sprint 3 → HU03 + HU04
-
-Uso:
-    cd backend
-    uvicorn server:app --reload --port 8000
-    → Abre http://localhost:8000
-"""
-
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
