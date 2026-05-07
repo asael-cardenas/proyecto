@@ -86,7 +86,7 @@
     },
     {
       "id": "zona_004",
-      "nombre": "Centro Histórico",
+      "nombre": "Centro",
       "lat": 20.6694,
       "lng": -103.3490,
       "nse": "C/D",
@@ -114,7 +114,7 @@
     },
     {
       "id": "zona_005",
-      "nombre": "Zapopan Centro",
+      "nombre": "Zapopan",
       "lat": 20.7208,
       "lng": -103.3960,
       "nse": "B/C",
@@ -198,7 +198,7 @@
     },
     {
       "id": "zona_008",
-      "nombre": "Puerta de Hierro / Andares",
+      "nombre": "Puerta de Hierro",
       "lat": 20.7292,
       "lng": -103.4315,
       "nse": "A+",

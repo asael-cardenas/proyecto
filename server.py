@@ -83,7 +83,6 @@ def listar_giros():
 
 @app.post("/analizar")
 def analizar_factibilidad(req: AnalisisRequest):
-    """HU01 — Factibilidad brute-force en todas las zonas."""
     datos = _datos()
     _val_giro(req.giro, datos)
     _val_nse(req.nse_cliente_objetivo, datos)
@@ -124,7 +123,6 @@ def detalle_zona(zona_id: str):
 
 @app.get("/visibilidad/{giro}")
 def ranking_visibilidad(giro: str):
-    """HU02 — Ranking de zonas por visibilidad comercial para un giro."""
     datos = _datos()
     _val_giro(giro, datos)
     rs = [visibilidad_a_dict(r) for r in rankear_zonas_por_visibilidad(giro, datos)]
@@ -135,7 +133,6 @@ def ranking_visibilidad(giro: str):
 
 @app.get("/filtro-giro/{giro}")
 def filtro_por_giro(giro: str):
-    """HU03 — Zonas recomendadas para un giro: evalúa saturación y complementariedad."""
     datos = _datos()
     _val_giro(giro, datos)
     rs = [filtro_giro_a_dict(r) for r in filtrar_zonas_por_giro(giro, datos)]
@@ -152,7 +149,6 @@ def filtro_por_giro(giro: str):
 
 @app.post("/comparar")
 def comparar(req: ComparacionRequest):
-    """HU04 — Comparación lado a lado de 2–4 zonas seleccionadas."""
     datos = _datos()
     _val_giro(req.giro, datos)
     _val_nse(req.nse_cliente_objetivo, datos)
