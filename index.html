@@ -3,404 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDL Nexus — Inteligencia Comercial ZMG</title>
+<title>GDL Nexus</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0d12;
-    --bg2: #0f1318;
-    --bg3: #151b23;
-    --bg4: #1c2430;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8edf2;
-    --text2: #8a9bb0;
-    --text3: #4a5a6a;
-    --accent: #00d4a0;
-    --accent2: #00a87e;
-    --accent-dim: rgba(0,212,160,0.12);
-    --yellow: #f5c842;
-    --yellow-dim: rgba(245,200,66,0.12);
-    --red: #f05a5a;
-    --red-dim: rgba(240,90,90,0.12);
-    --blue: #4a9eff;
-    --blue-dim: rgba(74,158,255,0.1);
-    --purple: #9d7aff;
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'Space Grotesk', sans-serif;
-  }
+:root {
+  --bg:#0a0d12; --bg2:#0f1318; --bg3:#151b23; --bg4:#1c2430;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#e8edf2; --text2:#8a9bb0; --text3:#4a5a6a;
+  --green:#00d4a0; --green-dim:rgba(0,212,160,0.12);
+  --yellow:#f5c842; --yellow-dim:rgba(245,200,66,0.12);
+  --red:#f05a5a; --red-dim:rgba(240,90,90,0.12);
+  --blue:#4a9eff; --blue-dim:rgba(74,158,255,0.1);
+  --purple:#9d7aff; --purple-dim:rgba(157,122,255,0.12);
+  --orange:#f5894a; --orange-dim:rgba(245,137,74,0.12);
+  --mono:'JetBrains Mono',monospace; --sans:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
+/* layout */
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:340px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 
-  /* ── LAYOUT ───────────────────────────────────────────── */
-  .shell { display: flex; height: 100vh; overflow: hidden; }
+/* logo */
+.logo-bar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--green),var(--blue));border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark svg{width:16px;height:16px}
+.brand{font-size:15px;font-weight:600} .brand em{font-style:normal;color:var(--green)}
+.tagline{font-size:10px;color:var(--text3);font-family:var(--mono)}
 
-  /* SIDEBAR */
-  .sidebar {
-    width: 340px; flex-shrink: 0;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
+/* mode tabs */
+.mode-tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--border);flex-shrink:0}
+.mode-tab{padding:8px 4px;border:none;background:transparent;color:var(--text3);font-size:10px;font-weight:600;font-family:var(--sans);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-align:center;line-height:1.4}
+.mode-tab:hover{color:var(--text2)}
+.mode-tab.on{color:var(--text);border-bottom-color:var(--green)}
+.mode-tab[data-mode="visibilidad"].on{color:var(--blue);border-bottom-color:var(--blue)}
+.mode-tab[data-mode="filtro"].on{color:var(--purple);border-bottom-color:var(--purple)}
+.mode-tab[data-mode="comparar"].on{color:var(--orange);border-bottom-color:var(--orange)}
 
-  .logo-bar {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 12px;
-  }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--accent), var(--blue));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .logo-mark svg { width: 20px; height: 20px; }
-  .logo-text { line-height: 1.2; }
-  .logo-text .brand { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
-  .logo-text .brand em { font-style: normal; color: var(--accent); }
-  .logo-text .tagline { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+/* sidebar panes */
+.sidebar-pane{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
+.sidebar-pane.on{display:flex}
+.sb-scroll{flex:1;overflow-y:auto;padding:14px 18px}
+.sb-scroll::-webkit-scrollbar{width:3px}
+.sb-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-  .sidebar-scroll { flex: 1; overflow-y: auto; padding: 20px 24px; }
-  .sidebar-scroll::-webkit-scrollbar { width: 4px; }
-  .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+/* form elements */
+.slabel-sec{font-size:10px;font-weight:600;letter-spacing:.09em;color:var(--text3);text-transform:uppercase;margin:14px 0 7px}
+.slabel-sec:first-child{margin-top:0}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:500}
+select,input[type=number]{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:13px;padding:7px 10px;appearance:none;outline:none;transition:border-color .2s}
+select:focus,input[type=number]:focus{border-color:var(--green)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234a5a6a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.row2{display:flex;gap:8px}
+.row2 .field{flex:1;margin-bottom:0}
+.nse-wrap{display:flex;flex-wrap:wrap;gap:5px}
+.nse-btn{font-size:11px;font-weight:600;font-family:var(--mono);padding:4px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--bg3);color:var(--text3);cursor:pointer;transition:all .15s}
+.nse-btn.on{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.sl-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sl-row label{font-size:11px;color:var(--text2);width:80px;flex-shrink:0}
+.sl-row input[type=range]{flex:1;height:3px;-webkit-appearance:none;background:var(--bg4);border-radius:2px;outline:none}
+.sl-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--green);cursor:pointer;border:2px solid var(--bg2)}
+.sl-val{font-family:var(--mono);font-size:11px;color:var(--green);width:28px;text-align:right}
+.hint-box{border-radius:6px;padding:9px 11px;font-size:11px;line-height:1.6;margin-bottom:10px}
+.hint-box.blue{background:var(--blue-dim);border:1px solid rgba(74,158,255,.2)}
+.hint-box.purple{background:var(--purple-dim);border:1px solid rgba(157,122,255,.2)}
+.hint-box.orange{background:var(--orange-dim);border:1px solid rgba(245,137,74,.2)}
+.hint-box strong{display:block;margin-bottom:2px}
 
-  .section-label {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-    color: var(--text3); text-transform: uppercase;
-    margin-bottom: 10px; margin-top: 20px;
-  }
-  .section-label:first-child { margin-top: 0; }
+/* buttons */
+.btn{width:100%;padding:9px;border:none;border-radius:7px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:4px}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.green{background:linear-gradient(135deg,var(--green),#00b890);color:#001a12}
+.btn.blue{background:linear-gradient(135deg,var(--blue),#2563eb);color:#fff}
+.btn.purple{background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff}
+.btn.orange{background:linear-gradient(135deg,var(--orange),#ea580c);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--border2);color:var(--text2);margin-top:5px}
 
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+/* results panel */
+.rp{border-top:1px solid var(--border);padding:10px 14px;flex-shrink:0}
+.rp.hidden{display:none}
+.rp-summary{display:flex;gap:5px;margin-bottom:8px}
+.rp-pill{flex:1;text-align:center;padding:4px;border-radius:5px;font-size:10px;font-weight:600;font-family:var(--mono)}
+.rp-pill.g{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,212,160,.3)}
+.rp-pill.y{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,200,66,.3)}
+.rp-pill.r{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,90,90,.3)}
+.rp-pill.b{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(74,158,255,.3)}
+.rp-pill.p{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(157,122,255,.3)}
+.zona-list{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.zona-list::-webkit-scrollbar{width:3px}
+.zona-list::-webkit-scrollbar-thumb{background:var(--border2)}
+.zr{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;transition:border-color .15s,background .15s}
+.zr:hover{border-color:var(--border2);background:var(--bg4)}
+.zr.active{border-color:var(--green);background:var(--green-dim)}
+.zr.sel{border-color:var(--orange);background:var(--orange-dim)}
+.zdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.zdot.VERDE{background:var(--green);box-shadow:0 0 5px var(--green)}
+.zdot.AMARILLO{background:var(--yellow);box-shadow:0 0 5px var(--yellow)}
+.zdot.ROJO{background:var(--red);box-shadow:0 0 5px var(--red)}
+.zdot.blue{background:var(--blue);box-shadow:0 0 5px var(--blue)}
+.zdot.purple{background:var(--purple)}
+.zdot.red{background:var(--red)}
+.zi{flex:1;min-width:0}
+.zn{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zs-sm{font-size:10px;color:var(--text3);font-family:var(--mono)}
+.zscore{font-size:12px;font-weight:600;font-family:var(--mono)}
+.zscore.VERDE{color:var(--green)} .zscore.AMARILLO{color:var(--yellow)} .zscore.ROJO{color:var(--red)}
+.zscore.blue{color:var(--blue)} .zscore.purple{color:var(--purple)}
 
-  select, input[type=number] {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 13px;
-    padding: 9px 12px;
-    appearance: none;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  select:focus, input[type=number]:focus { border-color: var(--accent); }
-  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234a5a6a'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+/* topbar */
+.topbar{padding:11px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0}
+.topbar-title{font-size:12px;color:var(--text2);font-family:var(--mono)}
+.topbar-title span{color:var(--green)}
+.view-tabs{display:flex;gap:2px}
+.vtab{font-size:11px;padding:4px 11px;border-radius:5px;border:1px solid transparent;background:transparent;color:var(--text3);cursor:pointer;font-family:var(--sans);font-weight:500;transition:all .15s}
+.vtab.on{background:var(--bg4);border-color:var(--border2);color:var(--text)}
 
-  .input-row { display: flex; gap: 10px; }
-  .input-row .field { flex: 1; margin-bottom: 0; }
+/* content */
+.content{flex:1;overflow:hidden;position:relative}
+.view{display:none;width:100%;height:100%}
+.view.on{display:block}
 
-  .nse-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-  .nse-btn {
-    font-size: 11px; font-weight: 600; font-family: var(--mono);
-    padding: 5px 10px; border-radius: 5px;
-    border: 1px solid var(--border2);
-    background: var(--bg3); color: var(--text3);
-    cursor: pointer; transition: all 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .nse-btn:hover { border-color: var(--accent); color: var(--text2); }
-  .nse-btn.on { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+/* map */
+#view-map{position:relative}
+.map-bg{width:100%;height:100%;background:var(--bg);background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:40px 40px;position:relative;overflow:hidden}
+#zmg-svg{width:100%;height:100%}
+.map-marker{cursor:pointer}
+.idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text3);pointer-events:none}
+.idle .big{font-size:38px;opacity:.12}
+.idle p{font-size:12px;font-family:var(--mono)}
+.mtt{position:absolute;pointer-events:none;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:7px 11px;font-size:12px;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;transition:opacity .15s;z-index:20}
+.mtt.show{opacity:1}
 
-  .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .slider-row label { font-size: 11px; color: var(--text2); width: 88px; flex-shrink: 0; }
-  .slider-row input[type=range] {
-    flex: 1; height: 3px;
-    -webkit-appearance: none; appearance: none;
-    background: var(--bg4); border-radius: 2px; outline: none;
-  }
-  .slider-row input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 14px; height: 14px;
-    border-radius: 50%; background: var(--accent); cursor: pointer;
-    border: 2px solid var(--bg2);
-  }
-  .slider-val { font-family: var(--mono); font-size: 11px; color: var(--accent); width: 28px; text-align: right; }
+/* detail overlay */
+.detail{position:absolute;right:14px;top:14px;bottom:14px;width:290px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:30}
+.detail.on{display:flex}
+.dh{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;flex-shrink:0}
+.dclose{width:20px;height:20px;border-radius:50%;background:var(--bg4);border:none;color:var(--text2);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.dring{width:52px;height:52px;position:relative;flex-shrink:0}
+.dring svg{width:52px;height:52px}
+.dring .rnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--mono)}
+.dmeta{flex:1;min-width:0}
+.dname{font-size:14px;font-weight:600;line-height:1.2;margin-bottom:3px}
+.dsub{font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:3px}
+.dbadge{display:inline-block;font-size:9px;font-weight:600;font-family:var(--mono);padding:2px 7px;border-radius:4px;letter-spacing:.05em}
+.db{flex:1;overflow-y:auto;padding:12px 14px}
+.db::-webkit-scrollbar{width:3px}
+.db::-webkit-scrollbar-thumb{background:var(--border2)}
+.desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.ssub{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin:10px 0 6px}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
+.mc{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 9px}
+.mc .ml{font-size:9px;color:var(--text3);margin-bottom:3px;font-family:var(--mono)}
+.mc .mv{font-size:13px;font-weight:600;font-family:var(--mono)}
+.srow{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.srow .sl{font-size:10px;color:var(--text2);width:76px;flex-shrink:0}
+.strack{flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.sfill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.25,1,.5,1)}
+.srow .sv{font-size:10px;font-family:var(--mono);color:var(--text2);width:28px;text-align:right}
+.al{display:flex;flex-direction:column;gap:4px}
+.al-item{font-size:11px;line-height:1.5;padding:5px 8px;border-radius:4px;border-left:2px solid}
+.al-item.warn{background:var(--red-dim);border-color:var(--red);color:#f08080}
+.al-item.rec{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.al-item.insight{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
 
-  .btn-run {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, var(--accent), #00b890);
-    border: none; border-radius: 8px;
-    color: #001a12; font-family: var(--sans); font-size: 14px; font-weight: 600;
-    cursor: pointer; letter-spacing: 0.01em;
-    transition: opacity 0.2s, transform 0.1s;
-    margin-top: 6px;
-  }
-  .btn-run:hover { opacity: 0.9; }
-  .btn-run:active { transform: scale(0.98); }
+/* table */
+#view-table{overflow:auto;padding:18px}
+.tbl-empty{padding:60px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:12px}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-align:left;padding:7px 11px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--bg)}
+tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+tbody tr:hover{background:var(--bg3)}
+tbody td{padding:8px 11px;font-size:11px}
+.tc-r{font-family:var(--mono);color:var(--text3);font-size:10px}
+.tc-n{font-weight:500;font-size:12px}
+.tc-s{font-family:var(--mono);font-weight:600;font-size:12px}
+.tc-s.VERDE{color:var(--green)} .tc-s.AMARILLO{color:var(--yellow)} .tc-s.ROJO{color:var(--red)}
+.tc-s.blue{color:var(--blue)} .tc-s.purple{color:var(--purple)}
+.tc-n2{font-family:var(--mono);color:var(--text2);font-size:10px}
+.mbar{height:3px;border-radius:2px;margin-bottom:2px;max-width:60px}
+.tbadge{display:inline-block;font-size:9px;font-weight:600;font-family:var(--mono);padding:2px 6px;border-radius:4px;letter-spacing:.05em}
+.bg{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,212,160,.3)}
+.ba{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,200,66,.3)}
+.br{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,90,90,.3)}
 
-  /* RESULTS PANEL in sidebar */
-  .results-panel { border-top: 1px solid var(--border); padding: 16px 24px; }
-  .results-panel.hidden { display: none; }
-  .res-summary { display: flex; gap: 8px; margin-bottom: 14px; }
-  .res-pill {
-    flex: 1; text-align: center;
-    padding: 6px 4px; border-radius: 6px;
-    font-size: 11px; font-weight: 600; font-family: var(--mono);
-  }
-  .res-pill.verde { background: rgba(0,212,160,0.1); color: var(--accent); border: 1px solid rgba(0,212,160,0.3); }
-  .res-pill.amarillo { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
-  .res-pill.rojo { background: var(--red-dim); color: var(--red); border: 1px solid rgba(240,90,90,0.3); }
+/* compare view */
+#view-comp{overflow:auto;padding:18px}
+.comp-empty{padding:60px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:12px}
+.comp-ganadores{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.cg{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:9px 13px;flex:1;min-width:140px}
+.cg-l{font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:3px}
+.cg-v{font-size:13px;font-weight:600;color:var(--green)}
+.comp-tbl{width:100%;border-collapse:collapse}
+.comp-tbl th{font-size:10px;color:var(--text3);text-align:left;padding:7px 11px;border-bottom:1px solid var(--border);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.comp-tbl td{padding:7px 11px;border-bottom:1px solid var(--border);font-size:11px;vertical-align:middle}
+.comp-tbl .rl{font-size:11px;color:var(--text2);font-weight:500;width:130px}
+.cbw{display:flex;align-items:center;gap:7px}
+.cbtrack{flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.cbfill{height:100%;border-radius:2px}
+.cbval{font-size:11px;font-family:var(--mono);color:var(--text2);width:30px;text-align:right}
+.best{background:rgba(0,212,160,.05)}
 
-  .zona-list { max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-  .zona-list::-webkit-scrollbar { width: 3px; }
-  .zona-list::-webkit-scrollbar-thumb { background: var(--border2); }
-
-  .zona-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 12px; border-radius: 7px;
-    border: 1px solid var(--border);
-    background: var(--bg3); cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .zona-row:hover { border-color: var(--border2); background: var(--bg4); }
-  .zona-row.active { border-color: var(--accent); background: var(--accent-dim); }
-  .zona-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .zona-dot.VERDE { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-  .zona-dot.AMARILLO { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
-  .zona-dot.ROJO { background: var(--red); box-shadow: 0 0 6px var(--red); }
-  .zona-info { flex: 1; min-width: 0; }
-  .zona-name-sm { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .zona-sub-sm { font-size: 10px; color: var(--text3); font-family: var(--mono); }
-  .zona-score { font-size: 13px; font-weight: 600; font-family: var(--mono); }
-  .zona-score.VERDE { color: var(--accent); }
-  .zona-score.AMARILLO { color: var(--yellow); }
-  .zona-score.ROJO { color: var(--red); }
-
-  /* MAIN */
-  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-  .topbar {
-    padding: 14px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--bg2);
-  }
-  .topbar-title { font-size: 13px; color: var(--text2); font-family: var(--mono); }
-  .topbar-title span { color: var(--accent); }
-  .view-tabs { display: flex; gap: 2px; }
-  .tab-btn {
-    font-size: 12px; padding: 5px 14px; border-radius: 5px;
-    border: 1px solid transparent; background: transparent;
-    color: var(--text3); cursor: pointer; font-family: var(--sans); font-weight: 500;
-    transition: all 0.15s;
-  }
-  .tab-btn.on { background: var(--bg4); border-color: var(--border2); color: var(--text); }
-
-  .content { flex: 1; overflow: hidden; position: relative; }
-
-  /* MAP VIEW */
-  #view-map { width: 100%; height: 100%; position: relative; }
-  .map-bg {
-    width: 100%; height: 100%; background: var(--bg);
-    background-image:
-      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 40px 40px;
-    position: relative; overflow: hidden;
-  }
-  #zmg-svg { width: 100%; height: 100%; }
-
-  /* Zone markers */
-  .map-marker { cursor: pointer; }
-  .map-marker circle { transition: r 0.2s, opacity 0.2s; }
-  .map-marker:hover circle.outer { r: 22; }
-  .map-marker text { font-family: var(--sans); pointer-events: none; }
-
-  /* overlay */
-  .detail-overlay {
-    position: absolute; right: 20px; top: 20px; bottom: 20px;
-    width: 320px; background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    overflow: hidden; display: none;
-    flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  }
-  .detail-overlay.visible { display: flex; }
-  .detail-header {
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: flex-start; justify-content: space-between;
-  }
-  .detail-close {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--bg4); border: none; color: var(--text2);
-    cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-left: 8px;
-  }
-  .detail-score-ring {
-    width: 64px; height: 64px; flex-shrink: 0;
-    position: relative; margin-right: 12px;
-  }
-  .detail-score-ring svg { width: 64px; height: 64px; }
-  .detail-score-ring .ring-num {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 600; font-family: var(--mono);
-  }
-  .detail-meta { flex: 1; min-width: 0; }
-  .detail-meta .dname { font-size: 15px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
-  .detail-meta .dnse { font-size: 11px; color: var(--text3); font-family: var(--mono); }
-  .detail-meta .dbadge {
-    display: inline-block; margin-top: 5px;
-    font-size: 10px; font-weight: 600; font-family: var(--mono);
-    padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em;
-  }
-  .detail-body { flex: 1; overflow-y: auto; padding: 16px 18px; }
-  .detail-body::-webkit-scrollbar { width: 3px; }
-  .detail-body::-webkit-scrollbar-thumb { background: var(--border2); }
-
-  .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-  .metric-card {
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px;
-  }
-  .metric-card .mlabel { font-size: 10px; color: var(--text3); margin-bottom: 4px; font-family: var(--mono); }
-  .metric-card .mval { font-size: 15px; font-weight: 600; color: var(--text); font-family: var(--mono); }
-
-  .scores-section { margin-bottom: 14px; }
-  .score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-  .score-row .slabel { font-size: 11px; color: var(--text2); width: 80px; flex-shrink: 0; }
-  .score-bar-track { flex: 1; height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
-  .score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
-  .score-row .sval { font-size: 11px; font-family: var(--mono); color: var(--text2); width: 30px; text-align: right; }
-
-  .alerts-list { display: flex; flex-direction: column; gap: 5px; }
-  .alert-item {
-    font-size: 11px; line-height: 1.5; padding: 6px 10px;
-    border-radius: 5px; border-left: 2px solid;
-  }
-  .alert-item.warn { background: var(--red-dim); border-color: var(--red); color: #f08080; }
-  .alert-item.rec { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
-  .detail-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
-  .section-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; margin-top: 14px; }
-
-  /* TABLE VIEW */
-  #view-table { display: none; width: 100%; height: 100%; overflow: auto; padding: 24px; }
-  #view-table.active { display: block; }
-  #view-map.active { display: block; }
-
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--text3); text-align: left; padding: 8px 14px;
-    border-bottom: 1px solid var(--border); white-space: nowrap;
-    position: sticky; top: 0; background: var(--bg);
-  }
-  tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.1s; }
-  tbody tr:hover { background: var(--bg3); }
-  tbody td { padding: 10px 14px; font-size: 12px; }
-  .td-rank { font-family: var(--mono); color: var(--text3); font-size: 11px; }
-  .td-zona { font-weight: 500; }
-  .td-score { font-family: var(--mono); font-weight: 600; }
-  .td-score.VERDE { color: var(--accent); }
-  .td-score.AMARILLO { color: var(--yellow); }
-  .td-score.ROJO { color: var(--red); }
-  .td-bar { min-width: 80px; }
-  .mini-bar { height: 4px; border-radius: 2px; }
-  .td-num { font-family: var(--mono); color: var(--text2); font-size: 11px; }
-  .td-badge {
-    display: inline-block; font-size: 9px; font-weight: 600; font-family: var(--mono);
-    padding: 2px 7px; border-radius: 4px; letter-spacing: 0.05em;
-  }
-  .badge-v { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,212,160,0.3); }
-  .badge-a { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
-  .badge-r { background: var(--red-dim); color: var(--red); border: 1px solid rgba(240,90,90,0.3); }
-
-  /* IDLE state */
-  .idle-msg {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 12px; color: var(--text3);
-    pointer-events: none;
-  }
-  .idle-msg .big { font-size: 40px; opacity: 0.15; }
-  .idle-msg p { font-size: 13px; font-family: var(--mono); }
-
-  /* Animations */
-  @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-  .fade-in { animation: fadeIn 0.3s ease forwards; }
-
-  /* Tooltip on map */
-  .map-tooltip {
-    position: absolute; pointer-events: none;
-    background: var(--bg3); border: 1px solid var(--border2);
-    border-radius: 7px; padding: 8px 12px;
-    font-size: 12px; white-space: nowrap;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    opacity: 0; transition: opacity 0.15s;
-  }
-  .map-tooltip.show { opacity: 1; }
-
-  /* no-results */
-  .no-results { padding: 60px 24px; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 12px; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fadeIn .25s ease forwards}
 </style>
 </head>
 <body>
-
 <div class="shell">
 
-  <!-- ───── SIDEBAR ───── -->
-  <aside class="sidebar">
-    <div class="logo-bar">
-      <div class="logo-mark">
-        <svg viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.5"/>
-          <circle cx="10" cy="10" r="3" fill="white"/>
-          <line x1="10" y1="2" x2="10" y2="5" stroke="white" stroke-width="1.5"/>
-          <line x1="10" y1="15" x2="10" y2="18" stroke="white" stroke-width="1.5"/>
-          <line x1="2" y1="10" x2="5" y2="10" stroke="white" stroke-width="1.5"/>
-          <line x1="15" y1="10" x2="18" y2="10" stroke="white" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="logo-text">
-        <div class="brand"><em>GDL</em> Nexus</div>
-        <div class="tagline">Inteligencia comercial · ZMG</div>
-      </div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo-bar">
+    <div class="logo-mark">
+      <svg viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="3" fill="white"/>
+        <line x1="10" y1="2" x2="10" y2="5" stroke="white" stroke-width="1.5"/>
+        <line x1="10" y1="15" x2="10" y2="18" stroke="white" stroke-width="1.5"/>
+        <line x1="2" y1="10" x2="5" y2="10" stroke="white" stroke-width="1.5"/>
+        <line x1="15" y1="10" x2="18" y2="10" stroke="white" stroke-width="1.5"/>
+      </svg>
     </div>
+    <div>
+      <div class="brand"><em>GDL</em> Nexus</div>
+      <div class="tagline">Inteligencia comercial · ZMG</div>
+    </div>
+  </div>
 
-    <div class="sidebar-scroll">
-      <div class="section-label">Parámetros del negocio</div>
+  <div class="mode-tabs">
+    <button class="mode-tab on"  data-mode="factibilidad" onclick="setMode('factibilidad')">Factibilidad</button>
+    <button class="mode-tab"     data-mode="visibilidad"  onclick="setMode('visibilidad')">Visibilidad</button>
+    <button class="mode-tab"     data-mode="filtro"       onclick="setMode('filtro')">Filtro Giro</button>
+    <!--<button class="mode-tab"     data-mode="comparar"     onclick="setMode('comparar')">HU04<br>Comparar</button>-->
+  </div>
 
+  <!-- PANE HU01 -->
+  <div class="sidebar-pane on" id="pane-factibilidad">
+    <div class="sb-scroll">
+      <div class="slabel-sec">Parámetros del negocio</div>
       <div class="field">
         <label>Giro comercial</label>
-        <select id="giro">
+        <select id="giro-s1">
           <option value="cafeteria">Cafetería</option>
           <option value="restaurante">Restaurante</option>
           <option value="retail_ropa">Retail / Ropa</option>
-          <option value="consultorio_dental">Consultorio Médico</option>
+          <option value="consultorio_dental">Consultorio dental</option>
           <option value="gimnasio">Gimnasio</option>
           <option value="farmacia">Farmacia</option>
           <option value="barberia">Barbería</option>
-          <option value="tienda_conveniencia">Tienda de conveniencia</option>
+          <option value="tienda_conveniencia">Tienda conveniencia</option>
           <option value="panaderia">Panadería</option>
           <option value="floristeria">Floristería</option>
         </select>
       </div>
-
-      <div class="input-row">
-        <div class="field">
-          <label>Presupuesto renta</label>
-          <input type="number" id="presupuesto" value="18000" min="1000" step="500" />
-        </div>
-        <div class="field">
-          <label>Metros cuadrados</label>
-          <input type="number" id="metros" value="50" min="10" step="5" />
-        </div>
+      <div class="row2">
+        <div class="field"><label>Presupuesto renta</label><input type="number" id="s1-pres" value="18000" min="1000" step="500"></div>
+        <div class="field"><label>Metros cuadrados</label><input type="number" id="s1-metros" value="50" min="10" step="5"></div>
       </div>
-
-      <div class="section-label">Perfil del cliente objetivo</div>
+      <div class="slabel-sec">Perfil del cliente</div>
       <div class="field">
-        <label>Nivel socioeconómico (NSE)</label>
-        <div class="nse-grid" id="nse-grid">
+        <label>NSE objetivo</label>
+        <div class="nse-wrap" id="nse-s1">
           <button class="nse-btn" data-nse="A+">A+</button>
           <button class="nse-btn on" data-nse="A/B">A/B</button>
           <button class="nse-btn on" data-nse="B">B</button>
@@ -410,499 +276,768 @@
           <button class="nse-btn" data-nse="D">D</button>
         </div>
       </div>
-
-      <div class="section-label">Ponderación de criterios</div>
-      <div class="slider-row">
-        <label>Afluencia</label>
-        <input type="range" id="w-afl" min="5" max="15" value="10" step="1">
-        <span class="slider-val" id="sv-afl">1.0×</span>
-      </div>
-      <div class="slider-row">
-        <label>Competencia</label>
-        <input type="range" id="w-comp" min="5" max="15" value="10" step="1">
-        <span class="slider-val" id="sv-comp">1.0×</span>
-      </div>
-
-      <button class="btn-run" onclick="ejecutarAnalisis()">
-        Analizar
-      </button>
+      <div class="slabel-sec">Ponderación</div>
+      <div class="sl-row"><label>Afluencia</label><input type="range" id="w-afl" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-afl">1.0×</span></div>
+      <div class="sl-row"><label>Competencia</label><input type="range" id="w-comp" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-comp">1.0×</span></div>
+      <button id="btn-s1" class="btn green" onclick="runFactibilidad()">Analizar factibilidad · 8 zonas</button>
     </div>
-
-    <!-- Results list in sidebar -->
-    <div class="results-panel hidden" id="results-panel">
-      <div class="res-summary" id="res-summary"></div>
-      <div class="zona-list" id="zona-list"></div>
+    <div class="rp hidden" id="rp-s1">
+      <div class="rp-summary" id="rs-s1"></div>
+      <div class="zona-list" id="zl-s1"></div>
     </div>
-  </aside>
+  </div>
 
-  <!-- ───── MAIN ───── -->
-  <main class="main">
-    <div class="topbar">
-      <div class="topbar-title">
-        Zona Metropolitana de Guadalajara
-        <span id="topbar-status">· Configura y ejecuta el análisis</span>
+  <!-- PANE HU02 -->
+  <div class="sidebar-pane" id="pane-visibilidad">
+    <div class="sb-scroll">
+      <div class="slabel-sec">Giro a evaluar</div>
+      <div class="field">
+        <label>Tipo de negocio</label>
+        <select id="giro-s2">
+          <option value="cafeteria">Cafetería</option>
+          <option value="restaurante">Restaurante</option>
+          <option value="retail_ropa">Retail / Ropa</option>
+          <option value="consultorio_dental">Consultorio dental</option>
+          <option value="gimnasio">Gimnasio</option>
+          <option value="farmacia">Farmacia</option>
+          <option value="barberia">Barbería</option>
+          <option value="tienda_conveniencia">Tienda conveniencia</option>
+          <option value="panaderia">Panadería</option>
+          <option value="floristeria">Floristería</option>
+        </select>
       </div>
-      <div class="view-tabs">
-        <button class="tab-btn on" onclick="switchView('map')">Mapa</button>
-        <button class="tab-btn" onclick="switchView('table')">Tabla</button>
+      <div class="hint-box blue" style="color:var(--text2)">
+        <strong style="color:var(--blue)">Visibilidad comercial</strong>
+        Clasifica las 8 zonas por cuánta exposición tendrá tu negocio: tráfico peatonal y vehicular ponderados, transporte público, negocios complementarios y saturación inversa.
       </div>
+      <button id="btn-s2" class="btn blue" onclick="runVisibilidad()">Calcular ranking de visibilidad</button>
     </div>
+    <div class="rp hidden" id="rp-s2">
+      <div class="rp-summary" id="rs-s2"></div>
+      <div class="zona-list" id="zl-s2"></div>
+    </div>
+  </div>
 
-    <div class="content">
-      <!-- MAP VIEW -->
-      <div id="view-map" class="active">
-        <div class="map-bg">
-          <svg id="zmg-svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <filter id="glow-g">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-              </filter>
-              <filter id="glow-y">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-              </filter>
-              <filter id="glow-r">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-              </filter>
-              <radialGradient id="city-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#00d4a0" stop-opacity="0.06"/>
-                <stop offset="100%" stop-color="#00d4a0" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
+  <!-- PANE HU03 -->
+  <div class="sidebar-pane" id="pane-filtro">
+    <div class="sb-scroll">
+      <div class="slabel-sec">Giro a filtrar</div>
+      <div class="field">
+        <label>Tipo de negocio</label>
+        <select id="giro-s3f">
+          <option value="cafeteria">Cafetería</option>
+          <option value="restaurante">Restaurante</option>
+          <option value="retail_ropa">Retail / Ropa</option>
+          <option value="consultorio_dental">Consultorio dental</option>
+          <option value="gimnasio">Gimnasio</option>
+          <option value="farmacia">Farmacia</option>
+          <option value="barberia">Barbería</option>
+          <option value="tienda_conveniencia">Tienda conveniencia</option>
+          <option value="panaderia">Panadería</option>
+          <option value="floristeria">Floristería</option>
+        </select>
+      </div>
+      <div class="hint-box purple" style="color:var(--text2)">
+        <strong style="color:var(--purple)">Filtro por giro</strong>
+        Evalúa qué zonas son aptas para tu tipo de negocio: baja saturación de competidores directos, presencia de negocios complementarios y compatibilidad NSE del giro.
+      </div>
+      <button id="btn-s3f" class="btn purple" onclick="runFiltro()">Filtrar zonas por giro</button>
+    </div>
+    <div class="rp hidden" id="rp-s3f">
+      <div class="rp-summary" id="rs-s3f"></div>
+      <div class="zona-list" id="zl-s3f"></div>
+    </div>
+  </div>
 
-            <!-- Background city glow -->
-            <ellipse cx="400" cy="280" rx="280" ry="200" fill="url(#city-glow)"/>
-
-            <!-- Road network (simplified ZMG arteries) -->
-            <g stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none">
-              <!-- Periférico-like ring -->
-              <ellipse cx="395" cy="290" rx="210" ry="160" stroke-dasharray="4,6"/>
-              <!-- Main avenues -->
-              <line x1="80" y1="290" x2="700" y2="290"/>
-              <line x1="395" y1="60" x2="395" y2="520"/>
-              <line x1="150" y1="140" x2="640" y2="440"/>
-              <line x1="640" y1="140" x2="150" y2="440"/>
-              <line x1="80" y1="200" x2="700" y2="200"/>
-              <line x1="80" y1="380" x2="700" y2="380"/>
-              <line x1="220" y1="60" x2="220" y2="520"/>
-              <line x1="560" y1="60" x2="560" y2="520"/>
-            </g>
-
-            <!-- Zone area blobs (approximate ZMG districts) -->
-            <g opacity="0.04" fill="white">
-              <circle cx="395" cy="290" r="30"/>
-              <circle cx="280" cy="250" r="25"/>
-              <circle cx="320" cy="330" r="22"/>
-              <circle cx="460" cy="290" r="28"/>
-              <circle cx="240" cy="290" r="20"/>
-              <circle cx="500" cy="200" r="22"/>
-              <circle cx="390" cy="410" r="20"/>
-              <circle cx="500" cy="130" r="18"/>
-            </g>
-
-            <!-- Compass -->
-            <g transform="translate(740,50)">
-              <circle cx="0" cy="0" r="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-              <text x="0" y="-7" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="'Space Grotesk',sans-serif">N</text>
-              <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-              <line x1="-4" y1="0" x2="4" y2="0" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
-            </g>
-
-            <!-- Scale bar -->
-            <g transform="translate(40,530)">
-              <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-              <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-              <line x1="60" y1="-4" x2="60" y2="4" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-              <text x="30" y="-7" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="'JetBrains Mono',monospace">~5 km</text>
-            </g>
-
-            <!-- Zone markers (injected by JS) -->
-            <g id="markers-layer"></g>
-          </svg>
+  <!-- PANE HU04 -->
+  <div class="sidebar-pane" id="pane-comparar">
+    <div class="sb-scroll">
+      <div class="slabel-sec">Parámetros de comparación</div>
+      <div class="field">
+        <label>Giro comercial</label>
+        <select id="giro-s3c">
+          <option value="cafeteria">Cafetería</option>
+          <option value="restaurante">Restaurante</option>
+          <option value="retail_ropa">Retail / Ropa</option>
+          <option value="consultorio_dental">Consultorio dental</option>
+          <option value="gimnasio">Gimnasio</option>
+          <option value="farmacia">Farmacia</option>
+          <option value="barberia">Barbería</option>
+          <option value="tienda_conveniencia">Tienda conveniencia</option>
+          <option value="panaderia">Panadería</option>
+          <option value="floristeria">Floristería</option>
+        </select>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Presupuesto renta</label><input type="number" id="c-pres" value="18000" min="1000" step="500"></div>
+        <div class="field"><label>Metros cuadrados</label><input type="number" id="c-metros" value="50" min="10" step="5"></div>
+      </div>
+      <div class="field">
+        <label>NSE objetivo</label>
+        <div class="nse-wrap" id="nse-s3c">
+          <button class="nse-btn" data-nse="A+">A+</button>
+          <button class="nse-btn on" data-nse="A/B">A/B</button>
+          <button class="nse-btn on" data-nse="B">B</button>
+          <button class="nse-btn" data-nse="B/C">B/C</button>
+          <button class="nse-btn" data-nse="C">C</button>
+          <button class="nse-btn" data-nse="C/D">C/D</button>
         </div>
-
-        <!-- Idle message -->
-        <div class="idle-msg" id="idle-msg">
-          <div class="big">◉</div>
-          <p>Configura y ejecuta el análisis</p>
+      </div>
+        <div class="hint-box orange" style="color:var(--text2)">
+          <strong style="color:var(--orange)">Comparar zonas</strong>
+          Ejecuta primero HU01 Factibilidad, luego activa este modo y haz clic en los marcadores del mapa para seleccionar 2–4 zonas.
         </div>
+      <div id="sel-count" style="font-size:11px;color:var(--text3);margin-bottom:7px">0 zonas seleccionadas</div>
+      <button id="btn-s3c" class="btn orange" onclick="runComparar()">Comparar zonas seleccionadas</button>
+      <button class="btn ghost" onclick="clearSel()">Limpiar selección</button>
+    </div>
+  </div>
+</aside>
 
-        <!-- Detail overlay -->
-        <div class="detail-overlay" id="detail-overlay">
-          <div class="detail-header">
-            <div class="detail-score-ring" id="d-ring">
-              <svg viewBox="0 0 64 64">
-                <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="5"/>
-                <circle id="d-ring-arc" cx="32" cy="32" r="26" fill="none" stroke="#00d4a0" stroke-width="5"
-                  stroke-linecap="round" stroke-dasharray="163.36" stroke-dashoffset="163.36"
-                  transform="rotate(-90 32 32)" style="transition: stroke-dashoffset 0.7s cubic-bezier(0.25,1,0.5,1)"/>
-              </svg>
-              <div class="ring-num" id="d-score-num">—</div>
-            </div>
-            <div class="detail-meta">
-              <div class="dname" id="d-name">—</div>
-              <div class="dnse" id="d-nse">NSE: —</div>
-              <span class="dbadge" id="d-badge">—</span>
-            </div>
-            <button class="detail-close" onclick="closeDetail()">✕</button>
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Zona Metropolitana de Guadalajara <span id="status">· Selecciona un modo de análisis</span></div>
+    <div class="view-tabs">
+      <button class="vtab on" id="vtab-map"  onclick="switchView('map')">Mapa</button>
+      <button class="vtab"    id="vtab-tbl"  onclick="switchView('table')">Tabla</button>
+      <button class="vtab"    id="vtab-comp" onclick="switchView('comp')" style="display:none">Comparar</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- MAP -->
+    <div class="view on" id="view-map">
+      <div class="map-bg">
+        <svg id="zmg-svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="cityglow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00d4a0" stop-opacity="0.05"/>
+              <stop offset="100%" stop-color="#00d4a0" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="400" cy="280" rx="280" ry="200" fill="url(#cityglow)"/>
+          <g stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none">
+            <ellipse cx="395" cy="290" rx="210" ry="160" stroke-dasharray="4,6"/>
+            <line x1="80" y1="290" x2="700" y2="290"/>
+            <line x1="395" y1="60" x2="395" y2="520"/>
+            <line x1="150" y1="140" x2="640" y2="440"/>
+            <line x1="640" y1="140" x2="150" y2="440"/>
+            <line x1="80" y1="200" x2="700" y2="200"/>
+            <line x1="80" y1="380" x2="700" y2="380"/>
+            <line x1="220" y1="60" x2="220" y2="520"/>
+            <line x1="560" y1="60" x2="560" y2="520"/>
+          </g>
+          <g transform="translate(744,48)">
+            <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <text x="0" y="-5" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="Space Grotesk,sans-serif">N</text>
+            <line x1="0" y1="-2" x2="0" y2="2" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          </g>
+          <g id="markers"></g>
+        </svg>
+      </div>
+      <div class="idle" id="idle"><div class="big">◉</div><p>Selecciona un modo y ejecuta el análisis</p></div>
+      <!-- Detail panel -->
+      <div class="detail" id="detail">
+        <div class="dh">
+          <div class="dring">
+            <svg viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="21" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="4"/>
+              <circle id="darc" cx="26" cy="26" r="21" fill="none" stroke="#00d4a0" stroke-width="4"
+                stroke-linecap="round" stroke-dasharray="131.95" stroke-dashoffset="131.95"
+                transform="rotate(-90 26 26)" style="transition:stroke-dashoffset .65s cubic-bezier(.25,1,.5,1)"/>
+            </svg>
+            <div class="rnum" id="dnum">—</div>
           </div>
-          <div class="detail-body">
-            <p class="detail-desc" id="d-desc"></p>
-            <div class="section-sub">Métricas clave</div>
-            <div class="metric-grid" id="d-metrics"></div>
-            <div class="section-sub">Desglose de factibilidad</div>
-            <div class="scores-section" id="d-scores"></div>
-            <div class="section-sub" id="d-alerts-title" style="display:none">Alertas y recomendaciones</div>
-            <div class="alerts-list" id="d-alerts"></div>
+          <div class="dmeta">
+            <div class="dname" id="dname">—</div>
+            <div class="dsub" id="dsub">—</div>
+            <span class="dbadge" id="dbadge">—</span>
           </div>
+          <button class="dclose" onclick="closeDetail()">✕</button>
         </div>
-
-        <!-- Map tooltip -->
-        <div class="map-tooltip" id="map-tooltip"></div>
+        <div class="db">
+          <p class="desc" id="ddesc"></p>
+          <div class="ssub">Métricas clave</div>
+          <div class="mgrid" id="dmetrics"></div>
+          <div class="ssub" id="dstitle">Desglose</div>
+          <div id="dscores"></div>
+          <div class="ssub" id="datitle" style="display:none">Alertas y recomendaciones</div>
+          <div class="al" id="dalerts"></div>
+        </div>
       </div>
+      <div class="mtt" id="mtt"></div>
+    </div>
 
-      <!-- TABLE VIEW -->
-      <div id="view-table">
-        <div class="no-results" id="table-empty">Ejecuta el análisis para ver resultados</div>
-        <table id="results-table" style="display:none">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Zona</th>
-              <th>Score</th>
-              <th>Estado</th>
-              <th>Presupuesto</th>
-              <th>Competencia</th>
-              <th>Afluencia</th>
-              <th>NSE</th>
-              <th>Plusvalía</th>
-              <th>Renta Est.</th>
-              <th>Competidores</th>
-              <th>Rec. (meses)</th>
-            </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
+    <!-- TABLE -->
+    <div class="view" id="view-table">
+      <div class="tbl-empty" id="tbl-empty">Ejecuta un análisis para ver resultados</div>
+      <table id="tbl" style="display:none">
+        <thead><tr id="tbl-head"></tr></thead>
+        <tbody id="tbl-body"></tbody>
+      </table>
+    </div>
+
+    <!-- COMPARE -->
+    <div class="view" id="view-comp">
+      <div class="comp-empty" id="comp-empty">Ejecuta una comparación desde HU04</div>
+      <div id="comp-content" style="display:none">
+        <div class="comp-ganadores" id="comp-ganadores"></div>
+        <table class="comp-tbl" id="comp-tbl"></table>
       </div>
     </div>
-  </main>
+
+  </div>
+</main>
 </div>
 
 <script>
-// ── MAP PROJECTION ────────────────────────────────────────────────
-// ZMG bounding box: lng -103.46 a -103.28, lat 20.62 a 20.74
-const MAP = { lngMin:-103.46, lngMax:-103.28, latMin:20.62, latMax:20.74, svgW:800, svgH:560, pad:60 };
+// ── PROYECCIÓN ────────────────────────────────────────────────────
+const MAP = {lngMin:-103.46,lngMax:-103.28,latMin:20.62,latMax:20.74,W:800,H:560,pad:60};
 function proj(lat, lng) {
-  const x = MAP.pad + (lng - MAP.lngMin) / (MAP.lngMax - MAP.lngMin) * (MAP.svgW - MAP.pad*2);
-  const y = MAP.pad + (1 - (lat - MAP.latMin) / (MAP.latMax - MAP.latMin)) * (MAP.svgH - MAP.pad*2);
-  return { x: Math.round(x), y: Math.round(y) };
+  return {
+    x: Math.round(MAP.pad + (lng - MAP.lngMin) / (MAP.lngMax - MAP.lngMin) * (MAP.W - MAP.pad * 2)),
+    y: Math.round(MAP.pad + (1 - (lat - MAP.latMin) / (MAP.latMax - MAP.latMin)) * (MAP.H - MAP.pad * 2))
+  };
 }
 
-// ── STATE ─────────────────────────────────────────────────────────
-// resultados: array aplanado de la respuesta de /analizar
-// Cada elemento tiene la forma exacta de resultado_a_dict() en Python:
-//   { zona_id, zona_nombre, lat, lng, score_total, semaforo,
-//     descripcion_zona, scores:{presupuesto,competencia,afluencia,nse,plusvalia},
-//     datos_crudos:{renta_estimada_mensual, negocios_mismo_giro, afluencia_ponderada},
-//     alertas[], recomendaciones[], meses_recuperacion_estimado }
-let resultados  = [];
-let activeZona  = null;
-let currentView = 'map';
+// ── ESTADO ───────────────────────────────────────────────────────
+let mode = 'factibilidad';
+let results = [];
+let selZonas = new Set();   // para HU04
 
-// ── UI HELPERS ────────────────────────────────────────────────────
-function semColor(sem) {
-  return sem==='VERDE'?'#00d4a0':sem==='AMARILLO'?'#f5c842':'#f05a5a';
-}
-function semClass(sem) {
-  return sem==='VERDE'?'badge-v':sem==='AMARILLO'?'badge-a':'badge-r';
-}
-function semLabel(sem) {
-  return sem==='VERDE'?'Viable':sem==='AMARILLO'?'Con riesgo':'No viable';
+// ── HELPERS ───────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const semColor = s => s==='VERDE'?'#00d4a0':s==='AMARILLO'?'#f5c842':'#f05a5a';
+const semLabel = s => s==='VERDE'?'Viable':s==='AMARILLO'?'Con riesgo':'No viable';
+const semBadge = s => s==='VERDE'?'bg':s==='AMARILLO'?'ba':'br';
+
+function getNSE(gridId) {
+  return [...document.querySelectorAll('#' + gridId + ' .nse-btn.on')].map(b => b.dataset.nse);
 }
 
-// Sliders
-['afl','comp'].forEach(k=>{
-  document.getElementById('w-'+k).addEventListener('input',function(){
-    document.getElementById('sv-'+k).textContent=(this.value/10).toFixed(1)+'×';
+// Sliders HU01
+['afl','comp'].forEach(k => {
+  $('w-'+k).addEventListener('input', function() {
+    $('sv-'+k).textContent = (this.value/10).toFixed(1) + '×';
   });
 });
-// NSE pills
-document.querySelectorAll('.nse-btn').forEach(b=>{
-  b.addEventListener('click',()=>b.classList.toggle('on'));
+
+// NSE pills – todos los grids
+document.querySelectorAll('.nse-btn').forEach(b => {
+  b.addEventListener('click', () => b.classList.toggle('on'));
 });
 
+// ── MODO ──────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  document.querySelectorAll('.sidebar-pane').forEach(p => p.classList.toggle('on', p.id === 'pane-' + m));
+  $('vtab-comp').style.display = (m === 'comparar') ? '' : 'none';
+  if (m !== 'comparar') switchView('map');
+  closeDetail();
+}
+
+// ── VISTA ─────────────────────────────────────────────────────────
 function switchView(v) {
-  currentView = v;
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('on', (i===0&&v==='map')||(i===1&&v==='table'));
+  ['map','table','comp'].forEach(id => {
+    $('view-' + id).classList.toggle('on', id === v);
   });
-  document.getElementById('view-map').classList.toggle('active',   v==='map');
-  document.getElementById('view-table').classList.toggle('active', v==='table');
-  if(v==='table') renderTable();
+  $('vtab-map').classList.toggle('on',  v === 'map');
+  $('vtab-tbl').classList.toggle('on',  v === 'table');
+  $('vtab-comp').classList.toggle('on', v === 'comp');
+  if (v === 'table') renderTable();
 }
 
-// ── EXECUTE — llama al backend, no hay lógica de negocio aquí ─────
-async function ejecutarAnalisis() {
-  const giro      = document.getElementById('giro').value;
-  const presupuesto = parseFloat(document.getElementById('presupuesto').value) || 18000;
-  const metros    = parseFloat(document.getElementById('metros').value) || 50;
-  const nseObj    = [...document.querySelectorAll('.nse-btn.on')].map(b => b.dataset.nse);
-  if (!nseObj.length) { alert('Selecciona al menos un NSE objetivo.'); return; }
-  const wAfl  = parseFloat(document.getElementById('w-afl').value)  / 10;
-  const wComp = parseFloat(document.getElementById('w-comp').value) / 10;
+// ── API ───────────────────────────────────────────────────────────
+async function apiGet(url) {
+  const r = await fetch(url);
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.statusText); }
+  return r.json();
+}
+async function apiPost(url, body) {
+  const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.statusText); }
+  return r.json();
+}
 
-  // Estado de carga
-  const btn = document.querySelector('.btn-run');
-  btn.textContent = 'Analizando…';
-  btn.disabled = true;
+function setBusy(btnId, msg) {
+  const b = $(btnId); if (!b) return;
+  b._txt = b.textContent; b.textContent = msg; b.disabled = true;
+}
+function setReady(btnId) {
+  const b = $(btnId); if (!b || !b._txt) return;
+  b.textContent = b._txt; b.disabled = false;
+}
 
+// ── HU01 FACTIBILIDAD ─────────────────────────────────────────────
+async function runFactibilidad() {
+  const nse = getNSE('nse-s1');
+  if (!nse.length) { alert('Selecciona al menos un NSE'); return; }
+  setBusy('btn-s1', 'Analizando…');
   try {
-    const resp = await fetch('/analizar', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        giro,
-        presupuesto_renta_mensual:    presupuesto,
-        metros_cuadrados_requeridos:  metros,
-        nse_cliente_objetivo:         nseObj,
-        importancia_afluencia:        wAfl,
-        importancia_precio:           1.0,
-        importancia_competencia:      wComp,
-      }),
+    const data = await apiPost('/analizar', {
+      giro:                         $('giro-s1').value,
+      presupuesto_renta_mensual:    +$('s1-pres').value,
+      metros_cuadrados_requeridos:  +$('s1-metros').value,
+      nse_cliente_objetivo:         nse,
+      importancia_afluencia:        +$('w-afl').value / 10,
+      importancia_precio:           1.0,
+      importancia_competencia:      +$('w-comp').value / 10
     });
+    results = data.analisis_completo;
+    closeDetail();
+    // sidebar
+    const rs = data.resumen;
+    $('rp-s1').classList.remove('hidden');
+    $('rs-s1').innerHTML =
+      '<div class="rp-pill g">' + rs.zonas_verdes + ' Verde' + (rs.zonas_verdes!==1?'s':'') + '</div>' +
+      '<div class="rp-pill y">' + rs.zonas_amarillas + ' Amarilla' + (rs.zonas_amarillas!==1?'s':'') + '</div>' +
+      '<div class="rp-pill r">' + rs.zonas_rojas + ' Roja' + (rs.zonas_rojas!==1?'s':'') + '</div>';
+    $('zl-s1').innerHTML = results.map((r,i) =>
+      '<div class="zr fi" style="animation-delay:' + (i*30) + 'ms" onclick="clickZona(\'' + r.zona_id + '\')">' +
+        '<div class="zdot ' + r.semaforo + '"></div>' +
+        '<div class="zi"><div class="zn">' + (i===0?'🏆 ':'') + r.zona_nombre + '</div>' +
+        '<div class="zs-sm">$' + Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString() + '/mes · ' + r.datos_crudos.negocios_mismo_giro + ' compet.</div></div>' +
+        '<div class="zscore ' + r.semaforo + '">' + r.score_total + '%</div>' +
+      '</div>'
+    ).join('');
+    renderMap();
+    $('status').textContent = '· ' + results.length + ' zonas analizadas — ' + rs.zonas_verdes + ' viables';
+    $('idle').style.display = 'none';
+  } catch(e) { alert('Error: ' + e.message); }
+  setReady('btn-s1');
+}
 
-    if (!resp.ok) {
-      const err = await resp.json();
-      alert('Error del servidor: ' + (err.detail || resp.statusText));
-      return;
+// ── HU02 VISIBILIDAD ──────────────────────────────────────────────
+async function runVisibilidad() {
+  setBusy('btn-s2', 'Calculando…');
+  try {
+    const giro = $('giro-s2').value;
+    const data = await apiGet('/visibilidad/' + giro);
+    results = data.ranking;
+    closeDetail();
+    $('rp-s2').classList.remove('hidden');
+    $('rs-s2').innerHTML =
+      '<div class="rp-pill b">#1 ' + (results[0] ? results[0].zona_nombre.split(' ')[0] : '—') + '</div>' +
+      '<div class="rp-pill b">' + results.length + ' zonas</div>';
+    $('zl-s2').innerHTML = results.map((r,i) =>
+      '<div class="zr fi" style="animation-delay:' + (i*30) + 'ms" onclick="clickZona(\'' + r.zona_id + '\')">' +
+        '<div class="zdot blue"></div>' +
+        '<div class="zi"><div class="zn">#' + r.rank + ' ' + r.zona_nombre + '</div>' +
+        '<div class="zs-sm">Afluencia: ' + r.afluencia_ponderada.toLocaleString() + '</div></div>' +
+        '<div class="zscore blue">' + r.score_visibilidad + '%</div>' +
+      '</div>'
+    ).join('');
+    renderMap();
+    $('status').textContent = '· Visibilidad para ' + giro + (data.top_zona ? ' — top: ' + data.top_zona.zona_nombre : '');
+    $('idle').style.display = 'none';
+  } catch(e) { alert('Error: ' + e.message); }
+  setReady('btn-s2');
+}
+
+// ── HU03 FILTRO ───────────────────────────────────────────────────
+async function runFiltro() {
+  setBusy('btn-s3f', 'Filtrando…');
+  try {
+    const giro = $('giro-s3f').value;
+    const data = await apiGet('/filtro-giro/' + giro);
+    results = data.ranking;
+    closeDetail();
+    $('rp-s3f').classList.remove('hidden');
+    $('rs-s3f').innerHTML =
+      '<div class="rp-pill p">' + data.zonas_aptas + ' Aptas</div>' +
+      '<div class="rp-pill r">' + data.zonas_no_aptas + ' No aptas</div>';
+    $('zl-s3f').innerHTML = results.map((r,i) =>
+      '<div class="zr fi" style="animation-delay:' + (i*30) + 'ms" onclick="clickZona(\'' + r.zona_id + '\')">' +
+        '<div class="zdot ' + (r.apto ? 'VERDE' : 'ROJO') + '"></div>' +
+        '<div class="zi"><div class="zn">' + r.zona_nombre + '</div>' +
+        '<div class="zs-sm">' + r.num_competidores + ' compet. · ' + (r.apto ? 'Apto' : 'No apto') + '</div></div>' +
+        '<div class="zscore ' + (r.apto ? 'purple' : 'ROJO') + '">' + r.score_aptitud + '%</div>' +
+      '</div>'
+    ).join('');
+    renderMap();
+    $('status').textContent = '· Filtro para ' + giro + ' — ' + data.zonas_aptas + ' zonas aptas';
+    $('idle').style.display = 'none';
+  } catch(e) { alert('Error: ' + e.message); }
+  setReady('btn-s3f');
+}
+
+// ── HU04 COMPARAR ─────────────────────────────────────────────────
+function toggleSel(id) {
+  if (selZonas.has(id)) { selZonas.delete(id); }
+  else if (selZonas.size < 4) { selZonas.add(id); }
+  else { alert('Máximo 4 zonas'); return; }
+  $('sel-count').textContent = selZonas.size + ' zona' + (selZonas.size!==1?'s':'') + ' seleccionada' + (selZonas.size!==1?'s':'');
+  document.querySelectorAll('.zr').forEach(el => {
+    const m = (el.getAttribute('onclick')||'').match(/'(zona_\d+)'/);
+    if (m) el.classList.toggle('sel', selZonas.has(m[1]));
+  });
+}
+
+function clearSel() {
+  selZonas.clear();
+  $('sel-count').textContent = '0 zonas seleccionadas';
+  document.querySelectorAll('.zr').forEach(el => el.classList.remove('sel'));
+}
+
+async function runComparar() {
+  if (selZonas.size < 2) { alert('Selecciona al menos 2 zonas en el mapa (ejecuta HU01 primero, luego activa HU04 y haz clic en los marcadores)'); return; }
+  const nse = getNSE('nse-s3c');
+  if (!nse.length) { alert('Selecciona al menos un NSE'); return; }
+  setBusy('btn-s3c', 'Comparando…');
+  try {
+    const data = await apiPost('/comparar', {
+      zona_ids:                     [...selZonas],
+      giro:                         $('giro-s3c').value,
+      presupuesto_renta_mensual:    +$('c-pres').value,
+      metros_cuadrados_requeridos:  +$('c-metros').value,
+      nse_cliente_objetivo:         nse,
+      importancia_afluencia:        1.0,
+      importancia_precio:           1.0,
+      importancia_competencia:      1.0
+    });
+    renderComparar(data);
+    $('vtab-comp').style.display = '';
+    switchView('comp');
+    $('status').textContent = '· Comparando ' + data.zonas_comparadas + ' zonas';
+  } catch(e) { alert('Error: ' + e.message); }
+  setReady('btn-s3c');
+}
+
+function renderComparar(data) {
+  const { fichas, ganadores } = data;
+  $('comp-empty').style.display = 'none';
+  $('comp-content').style.display = 'block';
+  const COLS = ['#00d4a0','#4a9eff','#9d7aff','#f5c842'];
+  // ganadores
+  const gLabels = {mejor_factibilidad:'Mejor factibilidad', mejor_visibilidad:'Mejor visibilidad', mejor_aptitud_giro:'Mejor aptitud giro'};
+  $('comp-ganadores').innerHTML = Object.entries(ganadores).map(([k,v]) =>
+    '<div class="cg"><div class="cg-l">' + (gLabels[k]||k) + '</div><div class="cg-v">' + v + '</div></div>'
+  ).join('');
+  // tabla
+  const rows = [
+    ['Factibilidad', f => f.scores.factibilidad,   true],
+    ['Visibilidad',  f => f.scores.visibilidad,    true],
+    ['Aptitud giro', f => f.scores.aptitud_giro,   true],
+    ['Presupuesto',  f => f.scores.presupuesto,    true],
+    ['Competencia',  f => f.scores.competencia,    true],
+    ['Afluencia',    f => f.scores.afluencia,      true],
+    ['NSE',          f => f.scores.nse,            true],
+    ['Plusvalía',    f => f.scores.plusvalia,       true],
+    ['Renta est.',   f => '$' + Math.round(f.datos_crudos.renta_estimada).toLocaleString(), false],
+    ['Competidores', f => f.datos_crudos.num_competidores, false],
+    ['Rec. meses',   f => f.datos_crudos.meses_recuperacion || '—', false],
+  ];
+  const thead = '<thead><tr><th style="width:130px">Indicador</th>' +
+    fichas.map((f,i) => '<th style="color:' + COLS[i%4] + '">' + f.zona_nombre + '<br><span style="font-size:9px;opacity:.6">' + f.semaforo + ' · ' + f.nse + '</span></th>').join('') +
+    '</tr></thead>';
+  const tbody = rows.map(([label, getter, isScore]) => {
+    const vals = fichas.map(f => getter(f));
+    const maxNum = isScore ? Math.max(...vals.map(v => parseFloat(v)||0)) : -1;
+    const cells = fichas.map((f,i) => {
+      const v = getter(f);
+      const num = parseFloat(v)||0;
+      const isBest = isScore && num === maxNum && maxNum > 0;
+      if (isScore) {
+        return '<td class="' + (isBest?'best':'') + '">' +
+          '<div class="cbw"><div class="cbtrack"><div class="cbfill" style="width:' + Math.min(num,100) + '%;background:' + COLS[i%4] + '"></div></div>' +
+          '<span class="cbval">' + Math.round(num) + '%</span></div></td>';
+      }
+      return '<td class="tc-n2 ' + (isBest?'best':'') + '">' + v + '</td>';
+    }).join('');
+    return '<tr><td class="rl">' + label + '</td>' + cells + '</tr>';
+  }).join('');
+  $('comp-tbl').innerHTML = thead + '<tbody>' + tbody + '</tbody>';
+}
+
+// ── MAPA ──────────────────────────────────────────────────────────
+function renderMap() {
+  const layer = $('markers');
+  layer.innerHTML = '';
+  const tooltip = $('mtt');
+  if (!results.length) return;
+
+  results.forEach((r, i) => {
+    const isTop = i === 0;
+    let col, score, labelText, tip;
+
+    if (mode === 'factibilidad') {
+      col = semColor(r.semaforo);
+      score = r.score_total;
+      labelText = r.zona_nombre.split(' ')[0];
+      tip = semLabel(r.semaforo) + ' · $' + Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString() + '/mes';
+    } else if (mode === 'visibilidad') {
+      col = '#4a9eff';
+      score = r.score_visibilidad;
+      labelText = '#' + r.rank + ' ' + r.zona_nombre.split(' ')[0];
+      tip = 'Afluencia: ' + r.afluencia_ponderada.toLocaleString();
+    } else if (mode === 'filtro') {
+      col = r.apto ? '#9d7aff' : '#f05a5a';
+      score = r.score_aptitud;
+      labelText = r.zona_nombre.split(' ')[0];
+      tip = r.apto ? 'Apto' : 'No apto';
+    } else if (mode === 'comparar') {
+      col = r.semaforo ? semColor(r.semaforo) : '#4a9eff';
+      score = r.score_total || r.score_visibilidad || 0;
+      labelText = r.zona_nombre.split(' ')[0];
+      tip = '';
+    } else { return; }
+
+    const p = proj(r.lat, r.lng);
+    const x = p.x, y = p.y;
+    const outerR = isTop ? 20 : 15;
+    const midR   = isTop ? 12 : 8;
+    const coreR  = isTop ? 6  : 4;
+    const labelY = y - (isTop ? 24 : 19);
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','map-marker');
+
+    // circles
+    const c1 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c1.setAttribute('cx',x); c1.setAttribute('cy',y); c1.setAttribute('r',outerR);
+    c1.setAttribute('fill',col); c1.setAttribute('opacity','0.10');
+
+    const c2 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c2.setAttribute('cx',x); c2.setAttribute('cy',y); c2.setAttribute('r',midR);
+    c2.setAttribute('fill',col); c2.setAttribute('opacity','0.22');
+
+    const c3 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c3.setAttribute('cx',x); c3.setAttribute('cy',y); c3.setAttribute('r',coreR);
+    c3.setAttribute('fill',col);
+
+    // label text
+    const t1 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t1.setAttribute('x',x); t1.setAttribute('y',labelY);
+    t1.setAttribute('text-anchor','middle'); t1.setAttribute('fill',col);
+    t1.setAttribute('font-size', isTop ? '11' : '10');
+    t1.setAttribute('font-family',"'Space Grotesk',sans-serif");
+    t1.setAttribute('font-weight', isTop ? '600' : '400');
+    t1.setAttribute('opacity','0.9');
+    t1.textContent = labelText;
+
+    // score text
+    const t2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t2.setAttribute('x', x + 30); t2.setAttribute('y', y + 4);
+    t2.setAttribute('fill',col); t2.setAttribute('font-size','11');
+    t2.setAttribute('font-family',"'JetBrains Mono',monospace");
+    t2.setAttribute('font-weight','600'); t2.setAttribute('opacity','0.9');
+    t2.textContent = score + '%';
+
+    g.appendChild(c1); g.appendChild(c2); g.appendChild(c3);
+
+    if (isTop) {
+      const dash = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dash.setAttribute('cx',x); dash.setAttribute('cy',y); dash.setAttribute('r','19');
+      dash.setAttribute('fill','none'); dash.setAttribute('stroke',col);
+      dash.setAttribute('stroke-width','1'); dash.setAttribute('opacity','0.4');
+      dash.setAttribute('stroke-dasharray','4,4');
+      g.appendChild(dash);
     }
 
-    const data = await resp.json();
-    // data.analisis_completo ya viene ordenado por score descendente desde el backend
-    resultados = data.analisis_completo;
+    g.appendChild(t1); g.appendChild(t2);
 
-  } catch (e) {
-    alert('No se pudo conectar con el backend.\n\nAsegúrate de que el servidor esté corriendo:\n  cd backend && uvicorn server:app --reload');
-    return;
-  } finally {
-    btn.textContent = 'Analizar 8 zonas · Fuerza bruta';
-    btn.disabled = false;
-  }
-
-  activeZona = null;
-  closeDetail();
-  renderSidebarResults();
-  renderMap();
-  if (currentView === 'table') renderTable();
-
-  const nV = resultados.filter(r => r.semaforo === 'VERDE').length;
-  document.getElementById('topbar-status').textContent =
-    `· ${resultados.length} zonas analizadas — ${nV} viables`;
-  document.getElementById('idle-msg').style.display = 'none';
-}
-
-// ── SIDEBAR RESULTS ───────────────────────────────────────────────
-function renderSidebarResults() {
-  document.getElementById('results-panel').classList.remove('hidden');
-
-  const nV = resultados.filter(r => r.semaforo === 'VERDE').length;
-  const nA = resultados.filter(r => r.semaforo === 'AMARILLO').length;
-  const nR = resultados.filter(r => r.semaforo === 'ROJO').length;
-  document.getElementById('res-summary').innerHTML = `
-    <div class="res-pill verde">${nV} Verde${nV!==1?'s':''}</div>
-    <div class="res-pill amarillo">${nA} Amarilla${nA!==1?'s':''}</div>
-    <div class="res-pill rojo">${nR} Roja${nR!==1?'s':''}</div>
-  `;
-
-  document.getElementById('zona-list').innerHTML = resultados.map((r, i) => `
-    <div class="zona-row ${activeZona===r.zona_id?'active':''} fade-in"
-      style="animation-delay:${i*40}ms"
-      onclick="selectZona('${r.zona_id}')">
-      <div class="zona-dot ${r.semaforo}"></div>
-      <div class="zona-info">
-        <div class="zona-name-sm">${i===0?'':''} ${r.zona_nombre}</div>
-        <div class="zona-sub-sm">$${Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()}/mes · ${r.datos_crudos.negocios_mismo_giro} compet.</div>
-      </div>
-      <div class="zona-score ${r.semaforo}">${r.score_total}%</div>
-    </div>
-  `).join('');
-}
-
-// ── MAP ───────────────────────────────────────────────────────────
-function renderMap() {
-  const layer   = document.getElementById('markers-layer');
-  layer.innerHTML = '';
-  const tooltip = document.getElementById('map-tooltip');
-
-  resultados.forEach((r, i) => {
-    const {x, y} = proj(r.lat, r.lng);
-    const col    = semColor(r.semaforo);
-    const isTop  = i === 0;
-    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    g.classList.add('map-marker');
-    g.setAttribute('data-id', r.zona_id);
-    g.innerHTML = `
-      <circle class="outer" cx="${x}" cy="${y}" r="${isTop?20:16}" fill="${col}" opacity="0.12"/>
-      <circle class="mid"   cx="${x}" cy="${y}" r="${isTop?12:9}"  fill="${col}" opacity="0.25"/>
-      <circle class="core"  cx="${x}" cy="${y}" r="${isTop?6:5}"   fill="${col}"/>
-      ${isTop
-        ? `<circle cx="${x}" cy="${y}" r="20" fill="none" stroke="${col}" stroke-width="1" opacity="0.4" stroke-dasharray="4,4"/>`
-        : `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${col}" stroke-width="0.5" opacity="0.3"/>`}
-      <text x="${x}" y="${y-18}" text-anchor="middle" fill="${col}"
-        font-size="${isTop?11:10}" font-family="'Space Grotesk',sans-serif" font-weight="${isTop?600:400}"
-        opacity="0.9">${r.zona_nombre.split(' ')[0]}</text>
-      <text x="${x+36}" y="${y+4}" text-anchor="start" fill="${col}"
-        font-size="11" font-family="'JetBrains Mono',monospace" font-weight="600"
-        opacity="0.95">${r.score_total}%</text>
-    `;
+    // events
     g.addEventListener('mouseenter', () => {
-      tooltip.innerHTML = `
-        <strong style="color:${col}">${r.zona_nombre}</strong><br>
-        Score: <span style="color:${col};font-family:var(--mono)">${r.score_total}%</span> · ${semLabel(r.semaforo)}<br>
-        Renta: <span style="font-family:var(--mono)">$${Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()}/mes</span> · ${r.datos_crudos.negocios_mismo_giro} competidores`;
+      tooltip.innerHTML = '<strong style="color:' + col + '">' + r.zona_nombre + '</strong><br>' +
+        'Score: <span style="font-family:var(--mono);color:' + col + '">' + score + '%</span>' +
+        (tip ? '<br>' + tip : '');
       tooltip.classList.add('show');
     });
     g.addEventListener('mousemove', e => {
-      const rect = document.getElementById('view-map').getBoundingClientRect();
+      const rect = $('view-map').getBoundingClientRect();
       tooltip.style.left = (e.clientX - rect.left + 14) + 'px';
       tooltip.style.top  = (e.clientY - rect.top  - 10) + 'px';
     });
     g.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
-    g.addEventListener('click', () => selectZona(r.zona_id));
+    g.addEventListener('click', () => clickZona(r.zona_id));
+
     layer.appendChild(g);
   });
 }
 
-// ── DETAIL PANEL ──────────────────────────────────────────────────
-function selectZona(id) {
-  activeZona = id;
-  document.querySelectorAll('.zona-row').forEach(el => {
-    el.classList.toggle('active', el.getAttribute('onclick') === `selectZona('${id}')`);
-  });
-  const r = resultados.find(r => r.zona_id === id);
-  if (r) openDetail(r);
+// ── CLICK EN ZONA ────────────────────────────────────────────────
+function clickZona(id) {
+  if (mode === 'comparar') { toggleSel(id); return; }
+  const r = results.find(x => x.zona_id === id);
+  if (!r) return;
+  if (mode === 'factibilidad') openDetailFact(r);
+  else if (mode === 'visibilidad') openDetailVis(r);
+  else if (mode === 'filtro') openDetailFiltro(r);
 }
 
-function openDetail(r) {
-  document.getElementById('detail-overlay').classList.add('visible');
-
-  // Anillo de progreso animado
-  const circ   = 2 * Math.PI * 26;
-  const offset = circ - (r.score_total / 100) * circ;
-  const arc    = document.getElementById('d-ring-arc');
-  arc.style.stroke = semColor(r.semaforo);
-  setTimeout(() => { arc.style.strokeDashoffset = offset; }, 50);
-  document.getElementById('d-score-num').textContent = r.score_total + '%';
-  document.getElementById('d-score-num').style.color = semColor(r.semaforo);
-
-  document.getElementById('d-name').textContent = r.zona_nombre;
-  document.getElementById('d-nse').textContent  = 'NSE: ' + (r.datos_crudos.nse ?? '—');
-  document.getElementById('d-desc').textContent = r.descripcion_zona;
-
-  const badge = document.getElementById('d-badge');
-  badge.textContent      = semLabel(r.semaforo);
-  badge.style.background = semColor(r.semaforo) + '20';
-  badge.style.color      = semColor(r.semaforo);
-  badge.style.border     = `1px solid ${semColor(r.semaforo)}50`;
-
-  document.getElementById('d-metrics').innerHTML = `
-    <div class="metric-card">
-      <div class="mlabel">Renta est./mes</div>
-      <div class="mval">$${Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()}</div>
-    </div>
-    <div class="metric-card">
-      <div class="mlabel">Competidores</div>
-      <div class="mval">${r.datos_crudos.negocios_mismo_giro}</div>
-    </div>
-    <div class="metric-card">
-      <div class="mlabel">Afluencia pond.</div>
-      <div class="mval">${r.datos_crudos.afluencia_ponderada.toLocaleString()}</div>
-    </div>
-    <div class="metric-card">
-      <div class="mlabel">Rec. inversión</div>
-      <div class="mval">${r.meses_recuperacion_estimado ? r.meses_recuperacion_estimado + ' meses' : 'N/D'}</div>
-    </div>
-  `;
-
-  const scoreItems = [
-    { lbl:'Presupuesto', val: r.scores.presupuesto, col:'#00d4a0' },
-    { lbl:'Competencia', val: r.scores.competencia, col:'#4a9eff' },
-    { lbl:'Afluencia',   val: r.scores.afluencia,   col:'#9d7aff' },
-    { lbl:'NSE',         val: r.scores.nse,         col:'#f5c842' },
-    { lbl:'Plusvalía',   val: r.scores.plusvalia,   col:'#f07a3a' },
-  ];
-  document.getElementById('d-scores').innerHTML = scoreItems.map(s => `
-    <div class="score-row">
-      <span class="slabel">${s.lbl}</span>
-      <div class="score-bar-track">
-        <div class="score-bar-fill" style="width:0%;background:${s.col}" data-w="${s.val}"></div>
-      </div>
-      <span class="sval">${Math.round(s.val)}%</span>
-    </div>
-  `).join('');
-  setTimeout(() => {
-    document.querySelectorAll('.score-bar-fill[data-w]').forEach(el => {
-      el.style.width = el.dataset.w + '%';
-    });
-  }, 80);
-
-  const allAlerts = [
-    ...r.alertas.map(a => ({ t:'warn', txt:a })),
-    ...r.recomendaciones.map(rc => ({ t:'rec', txt:rc })),
-  ];
-  document.getElementById('d-alerts-title').style.display = allAlerts.length ? 'block' : 'none';
-  document.getElementById('d-alerts').innerHTML = allAlerts.map(a => `
-    <div class="alert-item ${a.t}">${a.txt}</div>
-  `).join('');
+// ── DETAIL FACTIBILIDAD ───────────────────────────────────────────
+function openDetailFact(r) {
+  showDetail(r.score_total, semColor(r.semaforo));
+  $('dname').textContent = r.zona_nombre;
+  $('dsub').textContent  = 'NSE: ' + r.datos_crudos.nse;
+  $('ddesc').textContent = r.descripcion_zona;
+  const b = $('dbadge');
+  b.textContent = semLabel(r.semaforo);
+  b.style.cssText = 'background:' + semColor(r.semaforo) + '22;color:' + semColor(r.semaforo) + ';border:1px solid ' + semColor(r.semaforo) + '55';
+  $('dmetrics').innerHTML =
+    mc('Renta est./mes', '$' + Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()) +
+    mc('Competidores', r.datos_crudos.negocios_mismo_giro) +
+    mc('Afluencia pond.', r.datos_crudos.afluencia_ponderada.toLocaleString()) +
+    mc('Rec. inversión', r.meses_recuperacion_estimado ? r.meses_recuperacion_estimado + ' meses' : 'N/D');
+  $('dstitle').textContent = 'Desglose de factibilidad';
+  renderScores([
+    {l:'Presupuesto', v:r.scores.presupuesto, c:'#00d4a0'},
+    {l:'Competencia', v:r.scores.competencia, c:'#4a9eff'},
+    {l:'Afluencia',   v:r.scores.afluencia,   c:'#9d7aff'},
+    {l:'NSE',         v:r.scores.nse,         c:'#f5c842'},
+    {l:'Plusvalía',   v:r.scores.plusvalia,   c:'#f07a3a'},
+  ]);
+  renderAlerts([
+    ...(r.alertas||[]).map(t => ({cls:'warn', t})),
+    ...(r.recomendaciones||[]).map(t => ({cls:'rec', t}))
+  ]);
 }
 
+// ── DETAIL VISIBILIDAD ────────────────────────────────────────────
+function openDetailVis(r) {
+  showDetail(r.score_visibilidad, '#4a9eff');
+  $('dname').textContent = r.zona_nombre;
+  $('dsub').textContent  = 'Ranking #' + r.rank + ' en visibilidad';
+  $('ddesc').textContent = 'Afluencia ponderada: ' + r.afluencia_ponderada.toLocaleString() + ' personas equiv./día';
+  const b = $('dbadge');
+  b.textContent = 'Visibilidad'; b.style.cssText = 'background:rgba(74,158,255,.15);color:#4a9eff;border:1px solid rgba(74,158,255,.4)';
+  $('dmetrics').innerHTML =
+    mc('Score', r.score_visibilidad + '%', '#4a9eff') +
+    mc('Ranking', '#' + r.rank + ' / ' + results.length) +
+    mc('Afluencia', r.afluencia_ponderada.toLocaleString()) +
+    mc('Complement.', r.scores.complementariedad + '%');
+  $('dstitle').textContent = 'Componentes de visibilidad';
+  renderScores([
+    {l:'Tráf. peatonal', v:r.scores.trafico_peatonal,  c:'#4a9eff'},
+    {l:'Tráf. vehicular',v:r.scores.trafico_vehicular, c:'#9d7aff'},
+    {l:'Transporte',     v:r.scores.transporte_publico,c:'#f5c842'},
+    {l:'Complement.',    v:r.scores.complementariedad, c:'#00d4a0'},
+    {l:'Sat. inversa',   v:r.scores.saturacion_inversa,c:'#f5894a'},
+  ]);
+  renderAlerts([
+    ...(r.alertas||[]).map(t => ({cls:'warn', t})),
+    ...(r.insights||[]).map(t => ({cls:'insight', t}))
+  ]);
+}
+
+// ── DETAIL FILTRO ─────────────────────────────────────────────────
+function openDetailFiltro(r) {
+  const col = r.apto ? '#9d7aff' : '#f05a5a';
+  showDetail(r.score_aptitud, col);
+  $('dname').textContent = r.zona_nombre;
+  $('dsub').textContent  = r.apto ? '✓ Zona apta para este giro' : '✗ No recomendada para este giro';
+  $('ddesc').textContent = r.razon;
+  const b = $('dbadge');
+  b.textContent = r.apto ? 'Apto' : 'No apto';
+  b.style.cssText = 'background:' + col + '22;color:' + col + ';border:1px solid ' + col + '55';
+  $('dmetrics').innerHTML =
+    mc('Aptitud', r.score_aptitud + '%', col) +
+    mc('Competidores', r.num_competidores) +
+    mc('Saturación inv.', r.scores.saturacion + '%') +
+    mc('Complement.', r.scores.complementariedad + '%');
+  $('dstitle').textContent = 'Criterios de aptitud';
+  renderScores([
+    {l:'Saturación', v:r.scores.saturacion,        c:'#9d7aff'},
+    {l:'Complement.',v:r.scores.complementariedad, c:'#4a9eff'},
+    {l:'NSE giro',   v:r.scores.nse_giro,          c:'#f5c842'},
+  ]);
+  renderAlerts((r.recomendaciones||[]).map(t => ({cls:'rec', t})));
+}
+
+// ── DETAIL HELPERS ────────────────────────────────────────────────
+function showDetail(score, col) {
+  $('detail').classList.add('on');
+  const circ = 2 * Math.PI * 21;
+  const arc = $('darc');
+  arc.style.stroke = col;
+  arc.style.strokeDashoffset = circ;
+  setTimeout(() => { arc.style.strokeDashoffset = circ - (score / 100) * circ; }, 50);
+  $('dnum').textContent = score + '%';
+  $('dnum').style.color = col;
+}
 function closeDetail() {
-  document.getElementById('detail-overlay').classList.remove('visible');
-  document.getElementById('d-ring-arc').style.strokeDashoffset = '163.36';
-  activeZona = null;
-  document.querySelectorAll('.zona-row').forEach(el => el.classList.remove('active'));
+  $('detail').classList.remove('on');
+  $('darc').style.strokeDashoffset = '131.95';
+}
+function mc(label, val, col) {
+  return '<div class="mc"><div class="ml">' + label + '</div><div class="mv"' + (col ? ' style="color:' + col + '"' : '') + '>' + val + '</div></div>';
+}
+function renderScores(items) {
+  $('dscores').innerHTML = items.map(s =>
+    '<div class="srow"><span class="sl">' + s.l + '</span>' +
+    '<div class="strack"><div class="sfill" style="width:' + Math.min(s.v||0,100) + '%;background:' + s.c + '"></div></div>' +
+    '<span class="sv">' + Math.round(s.v||0) + '%</span></div>'
+  ).join('');
+}
+function renderAlerts(items) {
+  $('datitle').style.display = items.length ? 'block' : 'none';
+  $('dalerts').innerHTML = items.map(a => '<div class="al-item ' + a.cls + '">' + a.t + '</div>').join('');
 }
 
-// ── TABLE VIEW ────────────────────────────────────────────────────
+// ── TABLA ─────────────────────────────────────────────────────────
 function renderTable() {
-  if (!resultados.length) {
-    document.getElementById('table-empty').style.display  = 'block';
-    document.getElementById('results-table').style.display = 'none';
+  if (!results.length) {
+    $('tbl-empty').style.display = 'block';
+    $('tbl').style.display = 'none';
     return;
   }
-  document.getElementById('table-empty').style.display  = 'none';
-  document.getElementById('results-table').style.display = 'table';
+  $('tbl-empty').style.display = 'none';
+  $('tbl').style.display = 'table';
+  if (mode === 'factibilidad') renderTableFact();
+  else if (mode === 'visibilidad') renderTableVis();
+  else if (mode === 'filtro') renderTableFiltro();
+}
 
-  document.getElementById('table-body').innerHTML = resultados.map((r, i) => `
-    <tr onclick="selectZona('${r.zona_id}');switchView('map')">
-      <td class="td-rank">${i+1}</td>
-      <td class="td-zona">${i===0?'':''}${r.zona_nombre}</td>
-      <td class="td-score ${r.semaforo}">${r.score_total}%</td>
-      <td><span class="td-badge ${semClass(r.semaforo)}">${semLabel(r.semaforo)}</span></td>
-      <td class="td-num">
-        <div class="mini-bar" style="width:${r.scores.presupuesto}%;max-width:60px;background:#00d4a0;height:3px;border-radius:2px;margin-bottom:2px"></div>
-        ${Math.round(r.scores.presupuesto)}%
-      </td>
-      <td class="td-num">
-        <div class="mini-bar" style="width:${r.scores.competencia}%;max-width:60px;background:#4a9eff;height:3px;border-radius:2px;margin-bottom:2px"></div>
-        ${Math.round(r.scores.competencia)}%
-      </td>
-      <td class="td-num">
-        <div class="mini-bar" style="width:${r.scores.afluencia}%;max-width:60px;background:#9d7aff;height:3px;border-radius:2px;margin-bottom:2px"></div>
-        ${Math.round(r.scores.afluencia)}%
-      </td>
-      <td class="td-num">${r.datos_crudos.precio_m2 ?? '—'}</td>
-      <td class="td-num">
-        <div class="mini-bar" style="width:${r.scores.plusvalia}%;max-width:60px;background:#f07a3a;height:3px;border-radius:2px;margin-bottom:2px"></div>
-        ${Math.round(r.scores.plusvalia)}%
-      </td>
-      <td class="td-num">$${Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()}</td>
-      <td class="td-num">${r.datos_crudos.negocios_mismo_giro}</td>
-      <td class="td-num">${r.meses_recuperacion_estimado ?? '—'}</td>
-    </tr>
-  `).join('');
+function renderTableFact() {
+  $('tbl-head').innerHTML = '<th>#</th><th>Zona</th><th>Score</th><th>Estado</th><th>Presupuesto</th><th>Competencia</th><th>Afluencia</th><th>NSE</th><th>Plusvalía</th><th>Renta est.</th><th>Compet.</th><th>Rec. meses</th>';
+  $('tbl-body').innerHTML = results.map((r,i) =>
+    '<tr onclick="clickZona(\'' + r.zona_id + '\')">' +
+    '<td class="tc-r">' + (i+1) + '</td>' +
+    '<td class="tc-n">' + (i===0?'🏆 ':'') + r.zona_nombre + '</td>' +
+    '<td class="tc-s ' + r.semaforo + '">' + r.score_total + '%</td>' +
+    '<td><span class="tbadge ' + semBadge(r.semaforo) + '">' + semLabel(r.semaforo) + '</span></td>' +
+    tbcol(r.scores.presupuesto,'#00d4a0') + tbcol(r.scores.competencia,'#4a9eff') + tbcol(r.scores.afluencia,'#9d7aff') +
+    '<td class="tc-n2">' + r.datos_crudos.nse + '</td>' +
+    tbcol(r.scores.plusvalia,'#f07a3a') +
+    '<td class="tc-n2">$' + Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString() + '</td>' +
+    '<td class="tc-n2">' + r.datos_crudos.negocios_mismo_giro + '</td>' +
+    '<td class="tc-n2">' + (r.meses_recuperacion_estimado || '—') + '</td></tr>'
+  ).join('');
+}
+
+function renderTableVis() {
+  $('tbl-head').innerHTML = '<th>#</th><th>Zona</th><th>Visibilidad</th><th>Tráf. Peat.</th><th>Tráf. Veh.</th><th>Transporte</th><th>Complement.</th><th>Sat. Inversa</th><th>Afluencia</th>';
+  $('tbl-body').innerHTML = results.map((r,i) =>
+    '<tr onclick="clickZona(\'' + r.zona_id + '\')">' +
+    '<td class="tc-r">#' + r.rank + '</td>' +
+    '<td class="tc-n">' + (i===0?'🏆 ':'') + r.zona_nombre + '</td>' +
+    '<td class="tc-s blue">' + r.score_visibilidad + '%</td>' +
+    tbcol(r.scores.trafico_peatonal,'#4a9eff') + tbcol(r.scores.trafico_vehicular,'#9d7aff') +
+    tbcol(r.scores.transporte_publico,'#f5c842') + tbcol(r.scores.complementariedad,'#00d4a0') +
+    tbcol(r.scores.saturacion_inversa,'#f5894a') +
+    '<td class="tc-n2">' + r.afluencia_ponderada.toLocaleString() + '</td></tr>'
+  ).join('');
+}
+
+function renderTableFiltro() {
+  $('tbl-head').innerHTML = '<th>#</th><th>Zona</th><th>Aptitud</th><th>Estado</th><th>Saturación</th><th>Complement.</th><th>NSE giro</th><th>Competidores</th><th>Razón</th>';
+  $('tbl-body').innerHTML = results.map((r,i) =>
+    '<tr onclick="clickZona(\'' + r.zona_id + '\')">' +
+    '<td class="tc-r">' + (i+1) + '</td>' +
+    '<td class="tc-n">' + r.zona_nombre + '</td>' +
+    '<td class="tc-s ' + (r.apto?'purple':'ROJO') + '">' + r.score_aptitud + '%</td>' +
+    '<td><span class="tbadge ' + (r.apto?'bg':'br') + '">' + (r.apto?'Apto':'No apto') + '</span></td>' +
+    tbcol(r.scores.saturacion,'#9d7aff') + tbcol(r.scores.complementariedad,'#4a9eff') + tbcol(r.scores.nse_giro,'#f5c842') +
+    '<td class="tc-n2">' + r.num_competidores + '</td>' +
+    '<td style="font-size:10px;color:var(--text2);max-width:180px">' + r.razon + '</td></tr>'
+  ).join('');
+}
+
+function tbcol(val, col) {
+  const pct = Math.min(Math.round(val||0), 100);
+  return '<td class="tc-n2"><div class="mbar" style="background:' + col + ';width:' + pct + '%"></div>' + pct + '%</td>';
 }
 </script>
 </body>
