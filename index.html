@@ -229,7 +229,6 @@ tbody td{padding:8px 11px;font-size:11px}
     </div>
     <div>
       <div class="brand"><em>GDL</em> Nexus</div>
-      <div class="tagline">Inteligencia comercial · ZMG</div>
     </div>
   </div>
 
@@ -585,7 +584,7 @@ async function runFactibilidad() {
     $('zl-s1').innerHTML = results.map((r,i) =>
       '<div class="zr fi" style="animation-delay:' + (i*30) + 'ms" onclick="clickZona(\'' + r.zona_id + '\')">' +
         '<div class="zdot ' + r.semaforo + '"></div>' +
-        '<div class="zi"><div class="zn">' + (i===0?'🏆 ':'') + r.zona_nombre + '</div>' +
+        '<div class="zi"><div class="zn">' + (i===0?'':'') + r.zona_nombre + '</div>' +
         '<div class="zs-sm">$' + Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString() + '/mes · ' + r.datos_crudos.negocios_mismo_giro + ' compet.</div></div>' +
         '<div class="zscore ' + r.semaforo + '">' + r.score_total + '%</div>' +
       '</div>'
@@ -983,7 +982,7 @@ function renderTableFact() {
   $('tbl-body').innerHTML = results.map((r,i) =>
     '<tr onclick="clickZona(\'' + r.zona_id + '\')">' +
     '<td class="tc-r">' + (i+1) + '</td>' +
-    '<td class="tc-n">' + (i===0?'🏆 ':'') + r.zona_nombre + '</td>' +
+    '<td class="tc-n">' + (i===0?'':'') + r.zona_nombre + '</td>' +
     '<td class="tc-s ' + r.semaforo + '">' + r.score_total + '%</td>' +
     '<td><span class="tbadge ' + semBadge(r.semaforo) + '">' + semLabel(r.semaforo) + '</span></td>' +
     tbcol(r.scores.presupuesto,'#00d4a0') + tbcol(r.scores.competencia,'#4a9eff') + tbcol(r.scores.afluencia,'#9d7aff') +
@@ -1000,7 +999,7 @@ function renderTableVis() {
   $('tbl-body').innerHTML = results.map((r,i) =>
     '<tr onclick="clickZona(\'' + r.zona_id + '\')">' +
     '<td class="tc-r">#' + r.rank + '</td>' +
-    '<td class="tc-n">' + (i===0?'🏆 ':'') + r.zona_nombre + '</td>' +
+    '<td class="tc-n">' + (i===0?'':'') + r.zona_nombre + '</td>' +
     '<td class="tc-s blue">' + r.score_visibilidad + '%</td>' +
     tbcol(r.scores.trafico_peatonal,'#4a9eff') + tbcol(r.scores.trafico_vehicular,'#9d7aff') +
     tbcol(r.scores.transporte_publico,'#f5c842') + tbcol(r.scores.complementariedad,'#00d4a0') +
