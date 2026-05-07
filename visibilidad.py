@@ -1,24 +1,8 @@
-"""
-GDL Nexus — Módulo de Visibilidad Comercial
-Sprint 2 - HU02: Ranking de zonas por visibilidad
-
-La métrica de Visibilidad es diferente a la Factibilidad:
-  - Factibilidad responde "¿puedo abrir aquí?" (incluye presupuesto)
-  - Visibilidad responde "¿cuánta gente verá mi negocio aquí?" (independiente del costo)
-
-Componentes de la Visibilidad:
-  1. Tráfico peatonal ponderado por giro        (40%)
-  2. Tráfico vehicular ponderado por giro        (25%)
-  3. Conectividad de transporte público          (15%)
-  4. Índice de densidad comercial complementaria (12%)  ← zonas con variedad atraen más visitas
-  5. Saturación inversa del giro                  (8%)  ← demasiada competencia oculta el negocio
-"""
-
 from dataclasses import dataclass, field
 from typing import Optional
 
 
-# Pesos de afluencia por giro (mismo que factibilidad para consistencia)
+# Pesos de afluencia por giro
 _PESOS_GIRO: dict[str, dict[str, float]] = {
     "cafeteria":           {"peatonal": 0.70, "vehicular": 0.20, "transporte": 0.10},
     "restaurante":         {"peatonal": 0.50, "vehicular": 0.40, "transporte": 0.10},
@@ -32,7 +16,7 @@ _PESOS_GIRO: dict[str, dict[str, float]] = {
     "floristeria":         {"peatonal": 0.50, "vehicular": 0.40, "transporte": 0.10},
 }
 
-# Giros que se benefician de estar cerca de otros (complementariedad)
+# Giros que se benefician de estar cerca de otros 
 _GIROS_COMPLEMENTARIOS: dict[str, list[str]] = {
     "cafeteria":           ["restaurante", "panaderia", "retail_ropa"],
     "restaurante":         ["cafeteria", "retail_ropa", "floristeria"],
@@ -130,7 +114,7 @@ def calcular_visibilidad_zona(zona: dict, giro: str) -> tuple[float, dict]:
     s_comp  = _score_complementariedad(giro, zona["negocios_por_giro"])
     s_sat   = _score_saturacion_inversa(giro, zona["negocios_por_giro"], zona["zona_saturada"])
 
-    # Pesos fijos de la métrica de visibilidad
+    # Pesos fijos
     total = (
         s_peat * 0.40 +
         s_veh  * 0.25 +
