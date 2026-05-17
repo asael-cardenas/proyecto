@@ -1,16 +1,12 @@
 import os
 from dataclasses import dataclass, field
-from typing import list
-from backend import (
-    InputUsuario,
-    ResultadoZona,
-    evaluar_factibilidad_FB,
-    cargar_datos_zonas,
-)
+
+# === IMPORTACIONES DEL BACKEND EXISTENTE ===
+from backend import InputUsuario, ResultadoZona, evaluar_factibilidad_FB, cargar_datos_zonas
 
 @dataclass
 class PortafolioVoraz:
-    zonas_seleccionadas: list[ResultadoZona] = field(default_factory=list)
+    zonas_seleccionadas: list = field(default_factory=list)
     presupuesto_total_asignado: float = 0.0
     presupuesto_utilizado: float = 0.0
     presupuesto_remanente: float = 0.0
@@ -24,9 +20,6 @@ def construir_portafolio_voraz(
 ) -> PortafolioVoraz:
     """
     Desarrolla la estrategia de Selección Voraz (Greedy) para un portafolio de inversión.
-    
-    Selecciona un conjunto de sucursales en diferentes zonas optimizando la 
-    relación Beneficio/Costo (Score / Renta Estimada) sin exceder el presupuesto global.
     """
     # 1. Evaluamos la factibilidad individual de todas las zonas usando el backend existente
     zonas_evaluadas = evaluar_factibilidad_FB(usuario, datos)
@@ -34,7 +27,6 @@ def construir_portafolio_voraz(
     # 2. Estructuramos los elementos candidatos con su respectivo Índice de Eficiencia Comercial (IEC)
     candidatos = []
     for zona in zonas_evaluadas:
-        # Evitamos divisiones por cero si una zona tiene costo de renta inválido
         costo = zona.renta_estimada
         beneficio = zona.score_total
         
@@ -57,14 +49,12 @@ def construir_portafolio_voraz(
     
     for c in candidatos:
         costo_zona = c["costo"]
-        # Condición de viabilidad: ¿Cabe en el presupuesto remanente?
         if costo_zona <= portafolio.presupuesto_remanente:
             portafolio.zonas_seleccionadas.append(c["zona"])
             portafolio.presupuesto_utilizado += costo_zona
             portafolio.presupuesto_remanente -= costo_zona
             portafolio.score_acumulado_total += c["beneficio"]
             
-            # Agregamos una nota al resultado indicando su justificación voraz
             c["zona"].recomendaciones.append(
                 f"Seleccionada en portafolio por alta eficiencia costo/beneficio (IEC: {c['iec']:.5f})."
             )
@@ -73,26 +63,24 @@ def construir_portafolio_voraz(
 
 
 if __name__ == "__main__":
-    # Simulación de ejecución con tus datos actuales
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # Nota: Ajusta la ruta de tus zonas de acuerdo a tu estructura de carpetas
+    # Localización directa del JSON en la misma carpeta raíz
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    ruta_json = os.path.join(base_dir, "zonas_zmg.json")
+    
     try:
-        datos_zonas = cargar_datos_zonas(os.path.join(base_dir, "algoritmos", "zonas_zmg.json"))
+        datos_zonas = cargar_datos_zonas(ruta_json)
     except FileNotFoundError:
-        # Fallback por si ejecutas en la misma carpeta raíz
         datos_zonas = cargar_datos_zonas("zonas_zmg.json")
 
-    # Definimos el perfil de negocio de la franquicia
     perfil_usuario = InputUsuario(
         giro="cafeteria",
-        presupuesto_renta_mensual=15000, # Límite individual de referencia para cálculo de scores
+        presupuesto_renta_mensual=15000,
         metros_cuadrados_requeridos=50,
         nse_cliente_objetivo=["B", "A/B"],
         importancia_afluencia=1.2,
         importancia_competencia=1.0,
     )
 
-    # El inversionista cuenta con $50,000 mensuales para pagar rentas de múltiples sucursales
     PRESUPUESTO_PORTAFOLIO = 50000.0
 
     print(f"=== GDL NEXUS - Optimización de Portafolio Voraz ===")
