@@ -31,9 +31,6 @@ from visibilidad import calcular_visibilidad_zona
 from comparacion import _NSE_MINIMO_GIRO, _NSE_JERARQUIA
 from visibilidad import _score_complementariedad
 
-
-# ── MODELO DE SALIDA ──────────────────────────────────────────────────────────
-
 @dataclass
 class ResultadoUnificado:
     """Score unificado de una zona combinando los cuatro análisis."""

@@ -288,7 +288,7 @@ tbody td{padding:8px 11px;font-size:11px}
     <div class="sl-row"><label>Factibilidad</label><input type="range" id="w-fact" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-fact">1.0×</span></div>
     <div class="sl-row"><label>Visibilidad</label><input type="range" id="w-vis"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-vis">1.0×</span></div>
     <div class="sl-row"><label>Aptitud giro</label><input type="range" id="w-apt"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-apt">1.0×</span></div>
-    <div class="sl-row"><label>Posición relativa</label><input type="range" id="w-pos"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-pos">1.0×</span></div>
+    <div class="sl-row" style="display: none;"><label>Posición relativa</label><input type="range" id="w-pos"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-pos">1.0×</span></div>
     <div class="sl-row"><label>Afluencia</label><input type="range" id="w-afl"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-afl">1.0×</span></div>
     <div class="sl-row"><label>Competencia</label><input type="range" id="w-comp" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-comp">1.0×</span></div>
 
@@ -303,7 +303,7 @@ tbody td{padding:8px 11px;font-size:11px}
     </div>
     <div class="algo-desc" id="algo-desc"></div>
 
-    <button id="btn-run" class="btn green" onclick="runAnalisis()">Analizar todas las zonas</button>
+    <button id="btn-run" class="btn green" onclick="runAnalisis()">Buscar</button>
   </div>
 
   <div class="rp hidden" id="rp">
@@ -424,8 +424,7 @@ tbody td{padding:8px 11px;font-size:11px}
 </div>
 
 <script>
-// ── PROYECCIÓN LAT/LNG → SVG ──────────────────────────────────────
-const MAP = {lngMin:-103.47,lngMax:-103.21,latMin:20.61,latMax:20.74,W:800,H:560,pad:55};
+const MAP = {lngMin:-103.48, lngMax:-103.20, latMin:20.60, latMax:20.75, W:800, H:560, pad:80};
 function proj(lat,lng){
   return {
     x: Math.round(MAP.pad + (lng-MAP.lngMin)/(MAP.lngMax-MAP.lngMin)*(MAP.W-MAP.pad*2)),
@@ -528,7 +527,7 @@ async function runAnalisis() {
     ).join('');
 
     renderMap();
-    $('status').textContent = '· '+results.length+' zonas — '+rs.zonas_verdes+' viables';
+    $('status').textContent = '· '+rs.zonas_verdes+' viables';
     $('idle').style.display = 'none';
 
     if (data.log || data.benchmark) {

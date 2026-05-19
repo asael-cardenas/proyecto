@@ -25,7 +25,7 @@
       "descripcion": "Zona residencial consolidada con buen balance familia-comercio."
     },
     {
-      "id": "zona_004", "nombre": "Centro Histórico",
+      "id": "zona_004", "nombre": "Centro",
       "lat": 20.6694, "lng": -103.3490, "nse": "C/D", "renta_m2": 150,
       "afluencia_peatonal": 22000, "afluencia_vehicular": 7000, "densidad_negocios_total": 850,
       "negocios_por_giro": {"cafeteria":35,"restaurante":110,"retail_ropa":180,"consultorio_dental":30,"gimnasio":5,"farmacia":40,"barberia":55,"tienda_conveniencia":60,"panaderia":45,"floristeria":20},
@@ -33,7 +33,7 @@
       "descripcion": "Máxima afluencia peatonal, pero altísima competencia y rentas variables."
     },
     {
-      "id": "zona_005", "nombre": "Zapopan Centro",
+      "id": "zona_005", "nombre": "Zapopan",
       "lat": 20.7208, "lng": -103.3960, "nse": "B/C", "renta_m2": 200,
       "afluencia_peatonal": 9000, "afluencia_vehicular": 11000, "densidad_negocios_total": 390,
       "negocios_por_giro": {"cafeteria":22,"restaurante":55,"retail_ropa":70,"consultorio_dental":25,"gimnasio":9,"farmacia":20,"barberia":18,"tienda_conveniencia":28,"panaderia":12,"floristeria":8},
@@ -49,7 +49,7 @@
       "descripcion": "Zona artesanal y turística, gran oportunidad para negocios de experiencia."
     },
     {
-      "id": "zona_007", "nombre": "GDL Norte (Atemajac)",
+      "id": "zona_007", "nombre": "Atemajac",
       "lat": 20.7050, "lng": -103.3620, "nse": "C/D", "renta_m2": 90,
       "afluencia_peatonal": 5000, "afluencia_vehicular": 8000, "densidad_negocios_total": 160,
       "negocios_por_giro": {"cafeteria":5,"restaurante":20,"retail_ropa":30,"consultorio_dental":8,"gimnasio":2,"farmacia":10,"barberia":12,"tienda_conveniencia":15,"panaderia":6,"floristeria":2},
@@ -57,7 +57,7 @@
       "descripcion": "Zona en desarrollo, bajo costo pero con menor poder adquisitivo local."
     },
     {
-      "id": "zona_008", "nombre": "Puerta de Hierro / Andares",
+      "id": "zona_008", "nombre": "Andares",
       "lat": 20.7292, "lng": -103.4315, "nse": "A+", "renta_m2": 550,
       "afluencia_peatonal": 4500, "afluencia_vehicular": 15000, "densidad_negocios_total": 150,
       "negocios_por_giro": {"cafeteria":20,"restaurante":35,"retail_ropa":45,"consultorio_dental":10,"gimnasio":8,"farmacia":6,"barberia":5,"tienda_conveniencia":8,"panaderia":3,"floristeria":4},
@@ -73,7 +73,7 @@
       "descripcion": "Municipio artesanal con alto flujo turístico y comercio especializado en artesanías y muebles."
     },
     {
-      "id": "zona_010", "nombre": "Santa Tere / Mexicaltzingo",
+      "id": "zona_010", "nombre": "Santa Tere",
       "lat": 20.6680, "lng": -103.3580, "nse": "B/C", "renta_m2": 190,
       "afluencia_peatonal": 10500, "afluencia_vehicular": 8200, "densidad_negocios_total": 340,
       "negocios_por_giro": {"cafeteria":32,"restaurante":58,"retail_ropa":42,"consultorio_dental":16,"gimnasio":7,"farmacia":16,"barberia":28,"tienda_conveniencia":24,"panaderia":18,"floristeria":9},
@@ -81,7 +81,7 @@
       "descripcion": "Corredor gastronómico emergente con alta densidad peatonal y vida nocturna activa."
     },
     {
-      "id": "zona_011", "nombre": "Oblatos / Alcalde",
+      "id": "zona_011", "nombre": "Oblatos",
       "lat": 20.6820, "lng": -103.3300, "nse": "C/D", "renta_m2": 95,
       "afluencia_peatonal": 13000, "afluencia_vehicular": 6500, "densidad_negocios_total": 510,
       "negocios_por_giro": {"cafeteria":12,"restaurante":60,"retail_ropa":95,"consultorio_dental":22,"gimnasio":4,"farmacia":35,"barberia":48,"tienda_conveniencia":55,"panaderia":38,"floristeria":11},
@@ -89,7 +89,7 @@
       "descripcion": "Zona popular de alto tránsito con mercados tradicionales y comercio de bajo costo."
     },
     {
-      "id": "zona_012", "nombre": "Las Fuentes / Circunvalación",
+      "id": "zona_012", "nombre": "Las Fuentes",
       "lat": 20.6730, "lng": -103.2980, "nse": "B/C", "renta_m2": 160,
       "afluencia_peatonal": 6800, "afluencia_vehicular": 10500, "densidad_negocios_total": 245,
       "negocios_por_giro": {"cafeteria":14,"restaurante":38,"retail_ropa":32,"consultorio_dental":20,"gimnasio":8,"farmacia":18,"barberia":15,"tienda_conveniencia":22,"panaderia":9,"floristeria":5},
@@ -97,7 +97,7 @@
       "descripcion": "Zona residencial-comercial consolidada al oriente, con buena conectividad vial."
     },
     {
-      "id": "zona_013", "nombre": "Huentitán / Miravalle",
+      "id": "zona_013", "nombre": "Huentitán",
       "lat": 20.7180, "lng": -103.3150, "nse": "C/D", "renta_m2": 80,
       "afluencia_peatonal": 4200, "afluencia_vehicular": 5500, "densidad_negocios_total": 130,
       "negocios_por_giro": {"cafeteria":3,"restaurante":15,"retail_ropa":22,"consultorio_dental":6,"gimnasio":1,"farmacia":9,"barberia":10,"tienda_conveniencia":14,"panaderia":7,"floristeria":2},
@@ -105,7 +105,7 @@
       "descripcion": "Zona periférica norte con baja competencia directa, oportunidad de primer entrante en varios giros."
     },
     {
-      "id": "zona_014", "nombre": "Vallarta Norte / Seattle",
+      "id": "zona_014", "nombre": "Vallarta Norte",
       "lat": 20.7010, "lng": -103.4050, "nse": "B", "renta_m2": 240,
       "afluencia_peatonal": 7200, "afluencia_vehicular": 13500, "densidad_negocios_total": 275,
       "negocios_por_giro": {"cafeteria":24,"restaurante":42,"retail_ropa":35,"consultorio_dental":18,"gimnasio":10,"farmacia":14,"barberia":12,"tienda_conveniencia":20,"panaderia":8,"floristeria":6},
@@ -113,7 +113,7 @@
       "descripcion": "Corredor empresarial y residencial sobre Av. Vallarta con alto flujo vehicular diario."
     },
     {
-      "id": "zona_015", "nombre": "Ciudad Granja / Patria",
+      "id": "zona_015", "nombre": "Patria",
       "lat": 20.7080, "lng": -103.4480, "nse": "B", "renta_m2": 210,
       "afluencia_peatonal": 5500, "afluencia_vehicular": 12000, "densidad_negocios_total": 190,
       "negocios_por_giro": {"cafeteria":16,"restaurante":28,"retail_ropa":22,"consultorio_dental":14,"gimnasio":9,"farmacia":11,"barberia":8,"tienda_conveniencia":16,"panaderia":5,"floristeria":4},
@@ -121,7 +121,7 @@
       "descripcion": "Zona corporativa y residencial en crecimiento sobre el eje Av. Patria, alta dependencia del automóvil."
     },
     {
-      "id": "zona_016", "nombre": "Las Águilas / Jardines del Bosque",
+      "id": "zona_016", "nombre": "Jardines del Bosque",
       "lat": 20.6550, "lng": -103.4180, "nse": "A/B", "renta_m2": 300,
       "afluencia_peatonal": 4800, "afluencia_vehicular": 9800, "densidad_negocios_total": 175,
       "negocios_por_giro": {"cafeteria":15,"restaurante":28,"retail_ropa":20,"consultorio_dental":22,"gimnasio":7,"farmacia":10,"barberia":6,"tienda_conveniencia":12,"panaderia":4,"floristeria":5},
@@ -129,7 +129,7 @@
       "descripcion": "Colonia residencial de alto nivel al suroeste con servicios de salud y comercio selecto."
     },
     {
-      "id": "zona_017", "nombre": "Bugambilias / Santa Anita",
+      "id": "zona_017", "nombre": "Bugambilias",
       "lat": 20.6350, "lng": -103.4350, "nse": "A+", "renta_m2": 480,
       "afluencia_peatonal": 3200, "afluencia_vehicular": 11500, "densidad_negocios_total": 110,
       "negocios_por_giro": {"cafeteria":10,"restaurante":18,"retail_ropa":14,"consultorio_dental":8,"gimnasio":6,"farmacia":5,"barberia":4,"tienda_conveniencia":6,"panaderia":2,"floristeria":3},
@@ -137,7 +137,7 @@
       "descripcion": "Fraccionamientos privados de lujo al sur de Zapopan, mercado cautivo de alto poder adquisitivo."
     },
     {
-      "id": "zona_018", "nombre": "La Normal / Ladrón de Guevara",
+      "id": "zona_018", "nombre": "La Normal",
       "lat": 20.6840, "lng": -103.3760, "nse": "B/C", "renta_m2": 220,
       "afluencia_peatonal": 9800, "afluencia_vehicular": 8600, "densidad_negocios_total": 310,
       "negocios_por_giro": {"cafeteria":30,"restaurante":50,"retail_ropa":40,"consultorio_dental":18,"gimnasio":8,"farmacia":16,"barberia":20,"tienda_conveniencia":22,"panaderia":12,"floristeria":7},
@@ -145,7 +145,7 @@
       "descripcion": "Zona universitaria y de oficinas con alta afluencia diaria estudiantil y profesional."
     },
     {
-      "id": "zona_019", "nombre": "Tetlán / Independencia Oriente",
+      "id": "zona_019", "nombre": "Independencia Oriente",
       "lat": 20.6590, "lng": -103.3080, "nse": "C", "renta_m2": 105,
       "afluencia_peatonal": 8200, "afluencia_vehicular": 7000, "densidad_negocios_total": 290,
       "negocios_por_giro": {"cafeteria":7,"restaurante":38,"retail_ropa":52,"consultorio_dental":13,"gimnasio":3,"farmacia":20,"barberia":30,"tienda_conveniencia":32,"panaderia":16,"floristeria":5},
@@ -153,7 +153,7 @@
       "descripcion": "Zona popular al oriente con mercados barriales activos y alto flujo de transporte público."
     },
     {
-      "id": "zona_020", "nombre": "Colomos / Colinas de San Javier",
+      "id": "zona_020", "nombre": "Colomos",
       "lat": 20.7150, "lng": -103.3780, "nse": "A/B", "renta_m2": 350,
       "afluencia_peatonal": 5800, "afluencia_vehicular": 10200, "densidad_negocios_total": 185,
       "negocios_por_giro": {"cafeteria":18,"restaurante":30,"retail_ropa":22,"consultorio_dental":16,"gimnasio":9,"farmacia":10,"barberia":7,"tienda_conveniencia":14,"panaderia":5,"floristeria":6},
