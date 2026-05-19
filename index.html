@@ -161,30 +161,71 @@ tbody td{padding:8px 11px;font-size:11px}
 .ba{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,200,66,.3)}
 .br{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,90,90,.3)}
 
+
 /* log */
-#view-log{overflow:auto;display:flex;flex-direction:column}
+#view-log{display:flex;flex-direction:column;overflow:hidden}
 .log-toolbar{display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;font-size:11px;font-family:var(--mono)}
-#log-algo-label{color:var(--green);font-weight:600}
-#log-stats{color:var(--text3)}
 .log-empty{padding:60px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:12px}
-.log-body{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:5px}
-.log-body::-webkit-scrollbar{width:4px}
-.log-body::-webkit-scrollbar-thumb{background:var(--border2)}
-.log-step{display:grid;grid-template-columns:180px 90px 1fr;gap:8px;align-items:start;padding:7px 10px;border-radius:6px;border-left:3px solid;font-size:11px;font-family:var(--mono)}
-.log-step.eval{background:rgba(0,212,160,0.06);border-color:var(--green)}
-.log-step.pod{background:rgba(240,90,90,0.06);border-color:var(--red)}
-.log-step.div{background:rgba(74,158,255,0.06);border-color:var(--blue)}
-.log-step.comb{background:rgba(157,122,255,0.06);border-color:var(--purple)}
-.log-zona{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.log-tag{font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 6px;border-radius:3px;text-align:center}
-.log-tag.eval{background:var(--green-dim);color:var(--green)}
-.log-tag.pod{background:var(--red-dim);color:var(--red)}
-.log-tag.div{background:var(--blue-dim);color:var(--blue)}
-.log-tag.comb{background:var(--purple-dim);color:var(--purple)}
-.log-razon{color:var(--text2);line-height:1.5}
+#log-entries{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+#log-entries::-webkit-scrollbar{width:4px}
+#log-entries::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.log-entry{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.log-entry-header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.log-entry-num{font-size:10px;font-family:var(--mono);color:var(--text3);min-width:20px}
+.log-entry-algo{font-size:12px;font-weight:600;color:var(--text);flex:1}
+.log-entry-time{font-size:11px;font-family:var(--mono);color:var(--green)}
+.log-entry-ts{font-size:10px;font-family:var(--mono);color:var(--text3)}
+.log-entry-body{padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.log-row{display:flex;align-items:center;gap:10px;font-size:11px;font-family:var(--mono)}
+.log-rank{color:var(--text3);width:20px;text-align:right;flex-shrink:0}
+.log-zona-name{color:var(--text);flex:1}
+.log-score{font-weight:600;width:42px;text-align:right}
+.log-score.VERDE{color:var(--green)}
+.log-score.AMARILLO{color:var(--yellow)}
+.log-score.ROJO{color:var(--red)}
+.log-sem{font-size:9px;font-weight:600;padding:1px 6px;border-radius:3px;width:76px;text-align:center}
+.log-sem.VERDE{background:var(--green-dim);color:var(--green)}
+.log-sem.AMARILLO{background:var(--yellow-dim);color:var(--yellow)}
+.log-sem.ROJO{background:var(--red-dim);color:var(--red)}
+.log-bench-row{display:flex;gap:8px;padding:8px 14px;border-top:1px solid var(--border);font-size:10px;font-family:var(--mono);color:var(--text3)}
+.log-bench-item{display:flex;align-items:center;gap:5px}
+.log-bench-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
 
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .fi{animation:fadeIn .25s ease forwards}
+
+@media print {
+  /* Ocultar todo excepto el log */
+  .sidebar, .topbar, #view-map, #view-table, .log-toolbar { display:none !important; }
+  .shell { display:block !important; }
+  .main  { display:block !important; }
+  .content { overflow:visible !important; height:auto !important; }
+  .view  { display:none !important; }
+  #view-log { display:block !important; overflow:visible !important; height:auto !important; }
+  #log-entries { overflow:visible !important; padding:0 !important; gap:14px !important; }
+  body { background:#fff !important; color:#111 !important; font-family:Arial,sans-serif !important; }
+  /* Entrada de log */
+  .log-entry { border:1px solid #ddd !important; border-radius:6px !important; break-inside:avoid; margin-bottom:14px; }
+  .log-entry-header { background:#f5f5f5 !important; padding:10px 14px !important; border-bottom:1px solid #ddd !important; }
+  .log-entry-algo   { color:#111 !important; font-size:13px !important; }
+  .log-entry-time   { color:#059669 !important; }
+  .log-entry-ts     { color:#666 !important; }
+  .log-entry-num    { color:#999 !important; }
+  .log-entry-body   { padding:10px 14px !important; }
+  .log-row          { color:#111 !important; }
+  .log-zona-name    { color:#111 !important; }
+  .log-score.VERDE   { color:#059669 !important; }
+  .log-score.AMARILLO{ color:#b45309 !important; }
+  .log-score.ROJO    { color:#b91c1c !important; }
+  .log-sem.VERDE     { background:#d1fae5 !important; color:#065f46 !important; }
+  .log-sem.AMARILLO  { background:#fef3c7 !important; color:#78350f !important; }
+  .log-sem.ROJO      { background:#fee2e2 !important; color:#991b1b !important; }
+  .log-bench-row    { border-top:1px solid #eee !important; color:#666 !important; }
+  .log-bench-dot    { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  /* Encabezado de impresión */
+  #print-header { display:block !important; }
+}
 </style>
 </head>
 <body>
@@ -244,11 +285,13 @@ tbody td{padding:8px 11px;font-size:11px}
       </div>
     </div>
 
-    <div class="slabel">Pesos</div>
+    <div class="slabel">Pesos del análisis unificado</div>
     <div class="sl-row"><label>Factibilidad</label><input type="range" id="w-fact" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-fact">1.0×</span></div>
     <div class="sl-row"><label>Visibilidad</label><input type="range" id="w-vis"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-vis">1.0×</span></div>
     <div class="sl-row"><label>Aptitud giro</label><input type="range" id="w-apt"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-apt">1.0×</span></div>
     <div class="sl-row"><label>Posición relativa</label><input type="range" id="w-pos"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-pos">1.0×</span></div>
+
+    <div class="slabel">Pesos internos de factibilidad</div>
     <div class="sl-row"><label>Afluencia</label><input type="range" id="w-afl"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-afl">1.0×</span></div>
     <div class="sl-row"><label>Competencia</label><input type="range" id="w-comp" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-comp">1.0×</span></div>
 
@@ -257,10 +300,11 @@ tbody td{padding:8px 11px;font-size:11px}
       <label>Método</label>
       <select id="algo">
         <option value="brute_force">Fuerza Bruta</option>
-        <option value="greedy">Voraz</option>
+        <option value="greedy">Voraz (Greedy)</option>
         <option value="divide_y_venceras">Divide y Vencerás</option>
       </select>
     </div>
+    <div class="algo-desc" id="algo-desc">Evalúa todas las zonas contra todos los criterios sin filtros previos. O(n·c).</div>
 
     <button id="btn-run" class="btn green" onclick="runAnalisis()">Analizar todas las zonas</button>
   </div>
@@ -361,12 +405,21 @@ tbody td{padding:8px 11px;font-size:11px}
 
     <div class="view" id="view-log">
       <div class="log-toolbar">
-        <span id="log-algo-label">—</span>
-        <span id="log-stats"></span>
-        <button onclick="clearLog()" style="margin-left:auto;padding:3px 10px;background:transparent;border:1px solid var(--border2);border-radius:4px;color:var(--text3);font-size:11px;cursor:pointer">Limpiar</button>
+        <span style="color:var(--text2)">Historial de ejecuciones</span>
+        <span id="log-count" style="color:var(--text3)"></span>
+        <div style="display:flex;gap:6px;margin-left:auto">
+          <button onclick="exportCSV()" id="btn-csv" disabled style="padding:3px 11px;background:transparent;border:1px solid var(--border2);border-radius:4px;color:var(--text3);font-size:11px;cursor:pointer;transition:all .15s" onmouseover="if(!this.disabled)this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border2)'">Exportar CSV</button>
+          <button onclick="exportPDF()" id="btn-pdf" disabled style="padding:3px 11px;background:transparent;border:1px solid var(--border2);border-radius:4px;color:var(--text3);font-size:11px;cursor:pointer;transition:all .15s" onmouseover="if(!this.disabled)this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border2)'">Exportar PDF</button>
+          <button onclick="clearLog()" style="padding:3px 11px;background:transparent;border:1px solid var(--border2);border-radius:4px;color:var(--text3);font-size:11px;cursor:pointer">Limpiar</button>
+        </div>
       </div>
-      <div class="log-empty" id="log-empty">El log aparece aquí cuando se usa el algoritmo Voraz o Divide y Vencerás.</div>
-      <div class="log-body" id="log-body"></div>
+      <div id="log-entries">
+        <div id="print-header" style="display:none;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #059669">
+          <div style="font-size:22px;font-weight:700;color:#059669">GDL Nexus</div>
+          <div style="font-size:13px;color:#666;margin-top:2px">Historial de ejecuciones — Zona Metropolitana de Guadalajara</div>
+        </div>
+        <div id="log-empty" class="log-empty">Ejecuta el análisis para registrar ejecuciones aquí.</div>
+      </div>
     </div>
 
   </div>
@@ -386,6 +439,7 @@ function proj(lat,lng){
 // ── ESTADO ────────────────────────────────────────────────────────
 let results  = [];
 let activeId = null;
+let logData  = [];   // datos crudos de cada ejecución para CSV/PDF
 
 // ── HELPERS ───────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -394,9 +448,9 @@ const semLabel = s => s==='VERDE'?'Viable':s==='AMARILLO'?'Con riesgo':'No viabl
 const semBadge = s => s==='VERDE'?'bg':s==='AMARILLO'?'ba':'br';
 
 const ALGO_DESC = {
-  brute_force:       '',
-  greedy:            '',
-  divide_y_venceras: '',
+  brute_force:       'Evalúa todas las zonas contra todos los criterios sin filtros previos. O(n·c).',
+  greedy:            'Descarta zonas con filtros baratos (presupuesto, saturación, NSE) antes de calcular el score completo.',
+  divide_y_venceras: 'Divide el catálogo en mitades recursivamente, evalúa cada mitad y combina los rankings (merge-sort).',
 };
 
 // Sliders
@@ -407,6 +461,7 @@ const ALGO_DESC = {
 });
 // NSE
 document.querySelectorAll('.nse-btn').forEach(b => b.addEventListener('click', () => b.classList.toggle('on')));
+// Algo selector
 $('algo').addEventListener('change', function() {
   $('algo-desc').textContent = ALGO_DESC[this.value] || '';
 });
@@ -468,7 +523,7 @@ async function runAnalisis() {
       '<div class="zr fi" style="animation-delay:'+(i*30)+'ms" onclick="clickZona(\''+r.zona_id+'\')">' +
         '<div class="zdot '+r.semaforo+'"></div>' +
         '<div class="zi">' +
-          '<div class="zn">'+(i===0?'':'')+r.zona_nombre+'</div>' +
+          '<div class="zn">'+(i===0?'[Top] ':'')+r.zona_nombre+'</div>' +
           '<div class="zs-sm">$'+Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()+'/mes · '+r.datos_crudos.negocios_mismo_giro+' compet.</div>' +
         '</div>' +
         '<div class="zscore '+r.semaforo+'">'+r.score_unificado+'%</div>' +
@@ -479,8 +534,8 @@ async function runAnalisis() {
     $('status').textContent = '· '+results.length+' zonas — '+rs.zonas_verdes+' viables';
     $('idle').style.display = 'none';
 
-    if (data.log) {
-      await renderLog(data.log);
+    if (data.log || data.benchmark) {
+      await appendLog(data);
       $('vtab-log').style.display = '';
     }
   } catch(e) { alert('Error: '+e.message); }
@@ -671,63 +726,160 @@ function tbcol(val,col) {
   return '<td class="tc-n2"><div class="mbar" style="background:'+col+';width:'+pct+'%"></div>'+pct+'%</td>';
 }
 
-// ── LOG ───────────────────────────────────────────────────────────
-async function descomprimirPasos(b64gz) {
-  const bin = Uint8Array.from(atob(b64gz), c => c.charCodeAt(0));
-  const stream = new DecompressionStream('gzip');
-  const writer = stream.writable.getWriter();
-  writer.write(bin); writer.close();
-  return JSON.parse(await new Response(stream.readable).text());
-}
+// ── LOG ──────────────────────────────────────────────────────────
+let logCount = 0;
 
-async function renderLog(log) {
-  const algoName = log.algoritmo || '—';
-  $('log-algo-label').textContent = algoName;
-  let stats = log.zonas_total+' zonas · '+log.zonas_evaluadas_completo+' evaluadas · '+log.zonas_podadas+' podadas';
-  if (log.pasos_raw_bytes && log.pasos_gz_bytes) {
-    const ratio = Math.round((1-log.pasos_gz_bytes/log.pasos_raw_bytes)*100);
-    stats += '   ·   log: '+log.pasos_raw_bytes+'B → '+log.pasos_gz_bytes+'B ('+ratio+'% compresión)';
-  }
-  $('log-stats').textContent = stats;
+const BENCH_COLORS = {
+  brute_force:       '#4a9eff',
+  greedy:            '#00d4a0',
+  divide_y_venceras: '#9d7aff',
+};
 
-  let pasos;
-  try {
-    pasos = log.pasos_encoding==='gzip+base64'
-      ? await descomprimirPasos(log.pasos)
-      : log.pasos;
-  } catch(e) {
-    $('log-empty').textContent = 'Error al descomprimir el log: '+e.message;
-    $('log-empty').style.display='block'; $('log-body').innerHTML=''; return;
-  }
-  if (!pasos?.length) { $('log-empty').style.display='block'; $('log-body').innerHTML=''; return; }
-  $('log-empty').style.display='none';
+async function appendLog(data) {
+  logCount++;
+  logData.push({ num: logCount, ...data });   // guardar para exportación
+  $('log-empty').style.display = 'none';
+  $('log-count').textContent   = logCount + (logCount === 1 ? ' ejecución' : ' ejecuciones');
+  $('btn-csv').disabled = false;
+  $('btn-pdf').disabled = false;
 
-  $('log-body').innerHTML = pasos.map(p => {
-    const accion = (p.accion||'').toUpperCase();
-    let tipo, tag;
-    if      (accion.includes('PODADA'))                                       { tipo='pod';  tag='PODADA'; }
-    else if (accion.includes('DIVIDIR')||accion.includes('DIVI'))             { tipo='div';  tag='DIVIDIR'; }
-    else if (accion.includes('COMBINAR')||accion.includes('COMBIN'))          { tipo='comb'; tag='COMBINAR'; }
-    else                                                                       { tipo='eval'; tag='EVALUADA'; }
-    const prof   = p.profundidad!==undefined?' [prof='+p.profundidad+']':'';
-    const filtro = p.filtro&&p.filtro!=='—'?' · Filtro: '+p.filtro:'';
-    return '<div class="log-step '+tipo+'">'+
-      '<div class="log-zona">'+(p.zona||'—')+prof+'</div>'+
-      '<div><span class="log-tag '+tipo+'">'+tag+'</span>'+filtro+'</div>'+
-      '<div class="log-razon">'+(p.razon||p.accion||'—')+'</div>'+
-    '</div>';
-  }).join('');
+  const bench      = data.benchmark || [];
+  const algoClave  = data.algoritmo_usado;
+  const algoNames  = {brute_force:'Fuerza Bruta', greedy:'Voraz (Greedy)', divide_y_venceras:'Divide y Vencerás'};
+  const algoNombre = algoNames[algoClave] || algoClave;
+
+  // Tiempo de ejecución del algoritmo activo (medido en el backend con perf_counter)
+  const bEntry  = bench.find(b => b.clave === algoClave);
+  const msText  = bEntry ? bEntry.ms.toFixed(4) + ' ms' : '—';
+  const podadas = bEntry && bEntry.zonas_podadas > 0
+    ? '  ·  ' + bEntry.zonas_evaluadas + ' evaluadas, ' + bEntry.zonas_podadas + ' podadas'
+    : '  ·  ' + (bEntry ? bEntry.zonas_evaluadas : '—') + ' evaluadas';
+
+  // Filas de resultados en orden
+  const rows = (data.analisis_completo || []).map((r, i) =>
+    '<div class="log-row">' +
+      '<span class="log-rank">' + (i+1) + '.</span>' +
+      '<span class="log-zona-name">' + r.zona_nombre + '</span>' +
+      '<span class="log-score ' + r.semaforo + '">' + r.score_unificado + '%</span>' +
+      '<span class="log-sem '   + r.semaforo + '">' + r.semaforo + '</span>' +
+    '</div>'
+  ).join('');
+
+  // Tiempos comparativos de los tres algoritmos
+  const benchRow = bench.length
+    ? '<div class="log-bench-row">' +
+        bench.map(b =>
+          '<div class="log-bench-item">' +
+            '<div class="log-bench-dot" style="background:' + (BENCH_COLORS[b.clave]||'#fff') + '"></div>' +
+            '<span' + (b.clave === algoClave ? ' style="color:var(--text)"' : '') + '>' +
+              algoNames[b.clave] + ': <strong>' + b.ms.toFixed(4) + ' ms</strong>' +
+              (b.zonas_podadas > 0 ? ' (' + b.zonas_podadas + ' podadas)' : '') +
+            '</span>' +
+          '</div>'
+        ).join('<span style="color:var(--border2);margin:0 2px">·</span>') +
+      '</div>'
+    : '';
+
+  const entry = document.createElement('div');
+  entry.className = 'log-entry fi';
+  entry.innerHTML =
+    '<div class="log-entry-header">' +
+      '<span class="log-entry-num">#' + logCount + '</span>' +
+      '<span class="log-entry-algo">' + algoNombre + '</span>' +
+      '<span class="log-entry-time">' + msText + '</span>' +
+      '<span class="log-entry-ts">'   + podadas + '</span>' +
+    '</div>' +
+    '<div class="log-entry-body">' + rows + '</div>' +
+    benchRow;
+
+  $('log-entries').insertBefore(entry, $('log-entries').children[1] || null);
 }
 
 function clearLog() {
-  $('log-empty').textContent = 'El log aparece aquí cuando se usa el algoritmo Voraz o Divide y Vencerás.';
-  $('log-empty').style.display='block';
-  $('log-body').innerHTML='';
-  $('log-algo-label').textContent='—';
-  $('log-stats').textContent='';
-  $('vtab-log').style.display='none';
+  logCount = 0;
+  logData  = [];
+  const container = $('log-entries');
+  [...container.children].forEach(el => {
+    if (el.id !== 'log-empty' && el.id !== 'print-header') el.remove();
+  });
+  $('log-empty').style.display = 'block';
+  $('log-count').textContent   = '';
+  $('vtab-log').style.display  = 'none';
+  $('btn-csv').disabled = true;
+  $('btn-pdf').disabled = true;
   if ($('view-log').classList.contains('on')) switchView('map');
 }
-</script>
+
+// ── EXPORTACIÓN ───────────────────────────────────────────────────
+
+function exportCSV() {
+  if (!logData.length) return;
+
+  const algoNames = {
+    brute_force:'Fuerza Bruta',
+    greedy:'Voraz (Greedy)',
+    divide_y_venceras:'Divide y Vencerás',
+  };
+
+  const rows = [];
+
+  // Encabezado
+  rows.push([
+    'Ejecucion', 'Algoritmo', 'Tiempo_ms',
+    'Rank', 'Zona', 'Score_Unificado', 'Semaforo',
+    'Factibilidad', 'Visibilidad', 'Aptitud_Giro', 'Posicion_Relativa',
+    'Renta_Estimada', 'Competidores', 'Apto_Giro', 'Meses_Recuperacion',
+    'BF_ms', 'Greedy_ms', 'DyV_ms',
+  ].join(','));
+
+  for (const entry of logData) {
+    const algo   = algoNames[entry.algoritmo_usado] || entry.algoritmo_usado;
+    const bench  = entry.benchmark || [];
+    const bEntry = bench.find(b => b.clave === entry.algoritmo_usado);
+    const ms     = bEntry ? bEntry.ms : '';
+    const bfMs   = (bench.find(b => b.clave === 'brute_force')      || {}).ms || '';
+    const grMs   = (bench.find(b => b.clave === 'greedy')            || {}).ms || '';
+    const dvMs   = (bench.find(b => b.clave === 'divide_y_venceras') || {}).ms || '';
+
+    (entry.analisis_completo || []).forEach((r, i) => {
+      const sp = r.scores_principales || {};
+      const dc = r.datos_crudos       || {};
+      rows.push([
+        entry.num,
+        '"' + algo + '"',
+        ms,
+        i + 1,
+        '"' + r.zona_nombre + '"',
+        r.score_unificado,
+        r.semaforo,
+        sp.factibilidad  || '',
+        sp.visibilidad   || '',
+        sp.aptitud_giro  || '',
+        sp.posicion_rel  || '',
+        dc.renta_estimada_mensual || '',
+        dc.negocios_mismo_giro    || '',
+        dc.apto_para_giro ? 'Si' : 'No',
+        dc.meses_recuperacion     || '',
+        bfMs, grMs, dvMs,
+      ].join(','));
+    });
+  }
+
+  const blob = new Blob(['\uFEFF' + rows.join('\n')], {type:'text/csv;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'gdl_nexus_log.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportPDF() {
+  if (!logData.length) return;
+  // Activar vista log si no está activa
+  switchView('log');
+  // Pequeño delay para que el DOM se estabilice antes de imprimir
+  setTimeout(() => window.print(), 120);
+}</script>
 </body>
 </html>
