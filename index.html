@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDL Nexus — Inteligencia Comercial ZMG</title>
+<title>GDL Nexus</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -245,7 +245,6 @@ tbody td{padding:8px 11px;font-size:11px}
     </div>
     <div>
       <div class="brand"><em>GDL</em> Nexus</div>
-      <div class="tagline">Análisis unificado · ZMG</div>
     </div>
   </div>
 
@@ -285,26 +284,24 @@ tbody td{padding:8px 11px;font-size:11px}
       </div>
     </div>
 
-    <div class="slabel">Pesos del análisis unificado</div>
+    <div class="slabel">Pesos</div>
     <div class="sl-row"><label>Factibilidad</label><input type="range" id="w-fact" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-fact">1.0×</span></div>
     <div class="sl-row"><label>Visibilidad</label><input type="range" id="w-vis"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-vis">1.0×</span></div>
     <div class="sl-row"><label>Aptitud giro</label><input type="range" id="w-apt"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-apt">1.0×</span></div>
     <div class="sl-row"><label>Posición relativa</label><input type="range" id="w-pos"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-pos">1.0×</span></div>
-
-    <div class="slabel">Pesos internos de factibilidad</div>
     <div class="sl-row"><label>Afluencia</label><input type="range" id="w-afl"  min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-afl">1.0×</span></div>
     <div class="sl-row"><label>Competencia</label><input type="range" id="w-comp" min="5" max="15" value="10" step="1"><span class="sl-val" id="sv-comp">1.0×</span></div>
 
-    <div class="slabel">Algoritmo de evaluación</div>
+    <div class="slabel">Algoritmo</div>
     <div class="field">
       <label>Método</label>
       <select id="algo">
         <option value="brute_force">Fuerza Bruta</option>
-        <option value="greedy">Voraz (Greedy)</option>
+        <option value="greedy">Voraz</option>
         <option value="divide_y_venceras">Divide y Vencerás</option>
       </select>
     </div>
-    <div class="algo-desc" id="algo-desc">Evalúa todas las zonas contra todos los criterios sin filtros previos. O(n·c).</div>
+    <div class="algo-desc" id="algo-desc"></div>
 
     <button id="btn-run" class="btn green" onclick="runAnalisis()">Analizar todas las zonas</button>
   </div>
@@ -317,7 +314,7 @@ tbody td{padding:8px 11px;font-size:11px}
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title">Zona Metropolitana de Guadalajara <span id="status">· Configura y ejecuta el análisis</span></div>
+    <div class="topbar-title">Zona Metropolitana de Guadalajara <span id="status"></span></div>
     <div class="view-tabs">
       <button class="vtab on" id="vtab-map" onclick="switchView('map')">Mapa</button>
       <button class="vtab"    id="vtab-tbl" onclick="switchView('table')">Tabla</button>
@@ -356,7 +353,7 @@ tbody td{padding:8px 11px;font-size:11px}
           <g id="markers"></g>
         </svg>
       </div>
-      <div class="idle" id="idle"><div class="big">◉</div><p>Configura y ejecuta el análisis</p></div>
+      <div class="idle" id="idle"><div class="big">◉</div><p></p></div>
 
       <div class="detail" id="detail">
         <div class="dh">
@@ -428,7 +425,7 @@ tbody td{padding:8px 11px;font-size:11px}
 
 <script>
 // ── PROYECCIÓN LAT/LNG → SVG ──────────────────────────────────────
-const MAP = {lngMin:-103.46,lngMax:-103.28,latMin:20.62,latMax:20.74,W:800,H:560,pad:60};
+const MAP = {lngMin:-103.47,lngMax:-103.21,latMin:20.61,latMax:20.74,W:800,H:560,pad:55};
 function proj(lat,lng){
   return {
     x: Math.round(MAP.pad + (lng-MAP.lngMin)/(MAP.lngMax-MAP.lngMin)*(MAP.W-MAP.pad*2)),
@@ -448,9 +445,9 @@ const semLabel = s => s==='VERDE'?'Viable':s==='AMARILLO'?'Con riesgo':'No viabl
 const semBadge = s => s==='VERDE'?'bg':s==='AMARILLO'?'ba':'br';
 
 const ALGO_DESC = {
-  brute_force:       'Evalúa todas las zonas contra todos los criterios sin filtros previos. O(n·c).',
-  greedy:            'Descarta zonas con filtros baratos (presupuesto, saturación, NSE) antes de calcular el score completo.',
-  divide_y_venceras: 'Divide el catálogo en mitades recursivamente, evalúa cada mitad y combina los rankings (merge-sort).',
+  brute_force:       '',
+  greedy:            '',
+  divide_y_venceras: '',
 };
 
 // Sliders
@@ -523,7 +520,7 @@ async function runAnalisis() {
       '<div class="zr fi" style="animation-delay:'+(i*30)+'ms" onclick="clickZona(\''+r.zona_id+'\')">' +
         '<div class="zdot '+r.semaforo+'"></div>' +
         '<div class="zi">' +
-          '<div class="zn">'+(i===0?'[Top] ':'')+r.zona_nombre+'</div>' +
+          '<div class="zn">'+(i===0?'':'')+r.zona_nombre+'</div>' +
           '<div class="zs-sm">$'+Math.round(r.datos_crudos.renta_estimada_mensual).toLocaleString()+'/mes · '+r.datos_crudos.negocios_mismo_giro+' compet.</div>' +
         '</div>' +
         '<div class="zscore '+r.semaforo+'">'+r.score_unificado+'%</div>' +
@@ -745,7 +742,7 @@ async function appendLog(data) {
 
   const bench      = data.benchmark || [];
   const algoClave  = data.algoritmo_usado;
-  const algoNames  = {brute_force:'Fuerza Bruta', greedy:'Voraz (Greedy)', divide_y_venceras:'Divide y Vencerás'};
+  const algoNames  = {brute_force:'Fuerza Bruta', greedy:'Voraz', divide_y_venceras:'Divide y Vencerás'};
   const algoNombre = algoNames[algoClave] || algoClave;
 
   // Tiempo de ejecución del algoritmo activo (medido en el backend con perf_counter)
@@ -817,7 +814,7 @@ function exportCSV() {
 
   const algoNames = {
     brute_force:'Fuerza Bruta',
-    greedy:'Voraz (Greedy)',
+    greedy:'Voraz',
     divide_y_venceras:'Divide y Vencerás',
   };
 
