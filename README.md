@@ -1,11 +1,84 @@
-Para ejecutar el proyecto:  
+# Ejecutar el proyecto
 
-#1 Instala todas las dependencias  
+## 1. Instala todas las dependencias
 
-#2 Crea el entorno virtual usando __"python -m venv venv"__  
+Dependencias utilizadas:
 
-#3 Corre el Script activate de la carpeta venv que se creó __"venv\Scripts\activate"__, ni idea de como se debe correr en mac  
+- **fastapi**: Framework web utilizado para construir la API REST.
+- **uvicorn**: Servidor ASGI necesario para correr y desplegar la aplicación de FastAPI.
+- **pydantic**: Utilizado para la validación de datos y la creación de esquemas (`BaseModel`) en los endpoints de la API.
 
-#4 Setea el server usando el comando uvicorn __"server:app --reload --port 8000"__  
+### Windows
+```bash
+pip install fastapi uvicorn pydantic
+```
 
-#5 Ya quedó, para ver el proyecto abre el localhost:8000 en el navegador, para apagar el entorno virtual usa __"deactivate"__ :)
+### Linux / macOS
+```bash
+pip3 install fastapi uvicorn pydantic
+```
+
+---
+
+## 2. Crea el entorno virtual
+
+### Windows
+```bash
+python -m venv venv
+```
+
+### Linux / macOS
+```bash
+python3 -m venv venv
+```
+
+---
+
+## 3. Activa el entorno virtual
+
+### Windows
+```bash
+venv\Scripts\activate
+```
+
+### Linux / macOS
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 4. Corre el servidor
+
+```bash
+uvicorn server:app --reload --port 8000
+```
+
+---
+
+## 5. Abre el proyecto
+
+Abre el siguiente enlace en tu navegador:
+
+```text
+http://localhost:8000
+```
+O accede dando ```Ctrl + click``` sobre el link en tu terminal
+
+
+Para desactivar el entorno virtual utiliza:
+
+```bash
+deactivate
+```
+
+---
+
+## Nota
+
+Si algún comando `python` o `pip` no funciona, intenta utilizar:
+
+- `python3`
+- `pip3`
+
+dependiendo de tu sistema operativo.
